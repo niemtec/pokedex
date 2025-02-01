@@ -1,14 +1,14 @@
-class Version {
+class FormModel {
   final String name;
   final String url;
 
-  Version({
+  FormModel({
     required this.name,
     required this.url,
   });
 
-  factory Version.fromJson(Map<String, dynamic> json) {
-    return Version(
+  factory FormModel.fromJson(Map<String, dynamic> json) {
+    return FormModel(
       name: json['name'],
       url: json['url'],
     );

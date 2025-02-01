@@ -8,4 +8,11 @@ class VersionDetails {
     required this.rarity,
     required this.version,
   });
+
+  factory VersionDetails.fromJson(Map<String, dynamic> json) {
+    return VersionDetails(
+      rarity: json['rarity'],
+      version: Version.fromJson(json['version']),
+    );
+  }
 }
