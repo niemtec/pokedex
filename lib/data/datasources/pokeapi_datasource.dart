@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:pokedex/data/mappers/pokemon_model_mapper.dart';
+import 'package:pokedex/data/models/pokemon_model.dart';
+import 'package:pokedex/domain/entities/pokemon.dart';
 
 abstract class PokeapiDatasource {
-  Future<String> getPokemonByName(String name);
+  Future<Pokemon> getPokemonByName(String name);
   //TODO: implement remaining methods
 }
 
@@ -11,10 +16,12 @@ class PokeapiDatasourceImpl implements PokeapiDatasource {
   PokeapiDatasourceImpl(this.client);
 
   @override
-  Future<String> getPokemonByName(String name) async {
+  Future<Pokemon> getPokemonByName(String name) async {
     final response = await client.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$name'));
     if (response.statusCode == 200) {
-      return response.body;
+      final json = jsonDecode(response.body);
+      final pokemonModel = PokemonModel.fromJson(json);
+      return PokemonModelMapper.toDomain(pokemonModel);
     } else {
       throw Exception('Failed to load pokemon');
     }
