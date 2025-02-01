@@ -1,160 +1,82 @@
 import 'package:pokedex/data/models/pokemon_model.dart';
 import 'package:pokedex/domain/entities/pokemon.dart';
+import 'package:pokedex/domain/entities/pokemon_type.dart';
 
 class PokemonModelMapper {
-  static Pokemon toDomain(PokemonModel model) {
+  static Pokemon toDomain(PokemonModel pokemonModel) {
     return Pokemon(
-      id: model.id,
-      name: model.name,
-      order: model.order,
-      isDefault: model.isDefault,
-      locationAreaEncounters: model.locationAreaEncounters,
-      abilities: _mapAbilities(model.abilities),
-      baseExperience: model.baseExperience,
-      cries: _mapCries(model.cries),
-      forms: _mapForms(model.forms),
-      gameIndices: _mapGameIndices(model.gameIndices),
-      height: model.height,
-      heldItems: _mapHeldItems(model.heldItems),
-      moves: _mapMoves(model.moves),
-      pastAbilities: _mapPastAbilities(model.pastAbilities),
-      pastTypes: _mapPastTypes(model.pastTypes),
-      species: Species(
-        name: model.species.name,
-        url: model.species.url,
-      ),
-      sprite: _mapSprite(model.sprite),
-      stats: _mapStats(model.stats),
-      types: _mapTypes(model.types),
-      weight: model.weight,
+      id: pokemonModel.id ?? '',
+      name: pokemonModel.name ?? "",
+      imageUrl: pokemonModel.sprites!.frontDefault.toString(),
+      types: _mapType(pokemonModel.types ?? []),
+      abilities: _mapAbilities(pokemonModel.abilities ?? []),
     );
   }
 }
 
-List<Ability> _mapAbilities(List<AbilityModel> abilities) {
-  return abilities.map((ability) {
-    return Ability(
-      name: ability.name,
-      url: ability.url,
-      isHidden: ability.isHidden,
-      slot: ability.slot,
-    );
-  }).toList();
+List<PokemonType> _mapType(List<Types> types) {
+  List<PokemonType> pokemonTypes = [];
+
+  for (var type in types) {
+    pokemonTypes.add(_getType(type));
+  }
+
+  return pokemonTypes;
 }
 
-List<Cry> _mapCries(List<CryModel> cries) {
-  return cries.map((cry) {
-    return Cry(
-      latest: cry.latest,
-      legacy: cry.legacy,
-    );
-  }).toList();
+List<String> _mapAbilities(List<Abilities> abilities) {
+  List<String> pokemonAbilities = [];
+
+  for (var ability in abilities) {
+    pokemonAbilities.add(ability.ability?.name ?? "");
+  }
+
+  return pokemonAbilities;
 }
 
-List<Form> _mapForms(List<FormModel> forms) {
-  return forms.map((form) {
-    return Form(
-      name: form.name,
-      url: form.url,
-    );
-  }).toList();
-}
-
-List<GameIndex> _mapGameIndices(List<GameIndexModel> gameIndices) {
-  return gameIndices.map((gameIndex) {
-    return GameIndex(
-        gameIndex: gameIndex.gameIndex,
-        version: Version(
-          name: gameIndex.version.name,
-          url: gameIndex.version.url,
-        ));
-  }).toList();
-}
-
-List<HeldItem> _mapHeldItems(List<HeldItemModel> heldItems) {
-  return heldItems.map((heldItem) {
-    return HeldItem(
-      name: heldItem.name,
-      url: heldItem.url,
-      versionDetails: heldItem.versionDetails,
-    );
-  }).toList();
-}
-
-List<Move> _mapMoves(List<MoveModel> moves) {
-  return moves.map((move) {
-    return Move(
-      name: move.name,
-      url: move.url,
-    );
-  }).toList();
-}
-
-List<Ability> _mapPastAbilities(List<AbilityModel> pastAbilities) {
-  return pastAbilities.map((pastAbility) {
-    return Ability(
-      name: pastAbility.name,
-      url: pastAbility.url,
-      isHidden: pastAbility.isHidden,
-      slot: pastAbility.slot,
-    );
-  }).toList();
-}
-
-List<PokemonType> _mapPastTypes(List<TypeModel> pastTypes) {
-  return pastTypes.map((pastType) {
-    return PokemonType(
-      name: pastType.name,
-      url: pastType.url,
-    );
-  }).toList();
-}
-
-Sprite _mapSprite(SpriteModel sprite) {
-  return Sprite(
-      backDefault: sprite.backDefault,
-      backFemale: sprite.backFemale,
-      backShiny: sprite.backShiny,
-      backShinyFemale: sprite.backShinyFemale,
-      frontDefault: sprite.frontDefault,
-      frontFemale: sprite.frontFemale,
-      frontShiny: sprite.frontShiny,
-      frontShinyFemale: sprite.frontShinyFemale,
-      other: Other(
-        dreamWorld: _mapDreamWorld(sprite.other.dreamWorld),
-        officialArtwork: _mapOfficialArtwork(sprite.other.officialArtwork),
-      ));
-}
-
-DreamWorld _mapDreamWorld(DreamWorldModel dreamWorld) {
-  return DreamWorld(
-    frontDefault: dreamWorld.frontDefault,
-    frontFemale: dreamWorld.frontFemale,
-  );
-}
-
-OfficialArtwork _mapOfficialArtwork(OfficialArtworkModel officialArtwork) {
-  return OfficialArtwork(
-    frontDefault: officialArtwork.frontDefault,
-  );
-}
-
-List<Stat> _mapStats(List<StatModel> stats) {
-  return stats.map((stat) {
-    return Stat(
-      name: stat.name,
-      url: stat.url,
-      baseStat: stat.baseStat,
-      effort: stat.effort,
-    );
-  }).toList();
-}
-
-List<PokemonType> _mapTypes(List<TypeModel> types) {
-  return types.map((type) {
-    return PokemonType(
-      name: type.name,
-      url: type.url,
-    );
-  }).toList();
+PokemonType _getType(Types type) {
+  switch (type.type!.name) {
+    case 'normal':
+      return PokemonType.normal;
+    case 'fighting':
+      return PokemonType.fighting;
+    case 'flying':
+      return PokemonType.flying;
+    case 'poison':
+      return PokemonType.poison;
+    case 'ground':
+      return PokemonType.ground;
+    case 'rock':
+      return PokemonType.rock;
+    case 'bug':
+      return PokemonType.bug;
+    case 'ghost':
+      return PokemonType.ghost;
+    case 'steel':
+      return PokemonType.steel;
+    case 'fire':
+      return PokemonType.fire;
+    case 'water':
+      return PokemonType.water;
+    case 'grass':
+      return PokemonType.grass;
+    case 'electric':
+      return PokemonType.electric;
+    case 'psychic':
+      return PokemonType.psychic;
+    case 'ice':
+      return PokemonType.ice;
+    case 'dragon':
+      return PokemonType.dragon;
+    case 'dark':
+      return PokemonType.dark;
+    case 'fairy':
+      return PokemonType.fairy;
+    case 'unknown':
+      return PokemonType.unknown;
+    case 'shadow':
+      return PokemonType.shadow;
+    default:
+      return PokemonType.unknown;
+  }
 }
