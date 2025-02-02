@@ -1,4 +1,4 @@
-class PokemonModel {
+class PokemonDetailsModel {
   String? id;
   String? name;
   int? baseExperience;
@@ -19,7 +19,7 @@ class PokemonModel {
   List<Types>? types;
   List<PastTypes>? pastTypes;
 
-  PokemonModel(
+  PokemonDetailsModel(
       {this.id,
       this.name,
       this.baseExperience,
@@ -39,7 +39,7 @@ class PokemonModel {
       this.types,
       this.pastTypes});
 
-  PokemonModel.fromJson(Map<String, dynamic> json) {
+  PokemonDetailsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     baseExperience = json['base_experience'];

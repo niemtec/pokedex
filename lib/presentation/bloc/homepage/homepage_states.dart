@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pokedex/domain/entities/pokemon.dart';
-import 'package:pokedex/domain/entities/pokemon_profile.dart';
+import 'package:pokedex/domain/entities/pokemon_summary.dart';
 
 abstract class HomepageState extends Equatable {
   const HomepageState();
@@ -14,7 +14,7 @@ class HomepageInitial extends HomepageState {}
 class HomepageLoading extends HomepageState {}
 
 class HomepageLoaded extends HomepageState {
-  final List<PokemonProfile> pokemonList;
+  final List<PokemonSummary> pokemonList;
 
   const HomepageLoaded(this.pokemonList);
 

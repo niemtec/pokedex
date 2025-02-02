@@ -1,7 +1,7 @@
-import 'package:pokedex/domain/entities/pokemon.dart';
-import 'package:pokedex/domain/entities/pokemon_profile.dart';
+import 'package:pokedex/domain/entities/pokemon_details.dart';
+import 'package:pokedex/domain/entities/pokemon_summary.dart';
 
 abstract class PokemonRepository {
-  Future<List<PokemonProfile>> getPokemonList(int offset);
-  Future<Pokemon> getPokemonByName(String name);
+  Future<List<PokemonSummary>> getPokemonList(int offset);
+  Future<PokemonDetails> getPokemonDetailsByName({required String pokemonName});
 }

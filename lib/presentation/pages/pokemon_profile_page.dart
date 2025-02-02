@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex/domain/entities/pokemon_summary.dart';
+import 'package:pokedex/domain/entities/pokemon_type.dart';
 import 'package:pokedex/presentation/bloc/details_page/pokemon_details_page_cubit.dart';
 import 'package:pokedex/presentation/bloc/details_page/pokemon_details_page_states.dart';
 import 'package:pokedex/presentation/utils/extensions.dart';
+import 'package:pokedex/presentation/utils/utilities.dart';
+import 'package:pokedex/presentation/widgets/info_card.dart';
 import 'package:pokedex/presentation/widgets/loading_indicator.dart';
 
 class PokemonProfilePage extends StatefulWidget {
-  final String pokemonName;
-  final Color backgroundColor;
-  final String imageUrl;
+  final PokemonSummary pokemonProfile;
   final String heroTag;
 
   const PokemonProfilePage({
     super.key,
-    required this.pokemonName,
-    required this.backgroundColor,
-    required this.imageUrl,
+    required this.pokemonProfile,
     required this.heroTag,
   });
 
@@ -25,19 +25,22 @@ class PokemonProfilePage extends StatefulWidget {
 
 class _PokemonProfilePageState extends State<PokemonProfilePage>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+  late AnimationController _animationController;
+  late final Color accentColour;
+
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+    _animationController = AnimationController(
       duration: const Duration(seconds: 40),
       vsync: this,
     )..repeat();
+    accentColour = getPokemonTypeColour(widget.pokemonProfile.types[0]);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -61,20 +64,28 @@ class _PokemonProfilePageState extends State<PokemonProfilePage>
           ),
         ],
       ),
-      backgroundColor: widget.backgroundColor,
+      backgroundColor: accentColour,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _topDetailArea(widget.pokemonName, context),
-          _pokeballBackground(_controller),
-          _bottomInfoCard(widget.imageUrl, widget.heroTag)
+          _topDetailArea(widget.pokemonProfile.name, widget.pokemonProfile.id,
+              widget.pokemonProfile.types, context),
+          _pokeballBackground(_animationController),
+          // _bottomInfoCard(widget.pokemonProfile.imageUrl, widget.heroTag)
+          InfoCard(
+            pokemonName: widget.pokemonProfile.name,
+            imageUrl: widget.pokemonProfile.imageUrl,
+            heroTag: widget.heroTag,
+            accentColour: accentColour,
+          ),
         ],
       ),
     );
   }
 }
 
-Widget _topDetailArea(String pokemonName, BuildContext context) {
+Widget _topDetailArea(
+    String pokemonName, String id, List<PokemonType> types, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16.0),
     child: Column(
@@ -92,7 +103,7 @@ Widget _topDetailArea(String pokemonName, BuildContext context) {
                     .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               Text(
-                "#number",
+                "#$id",
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -103,21 +114,7 @@ Widget _topDetailArea(String pokemonName, BuildContext context) {
         ),
         Row(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              margin: const EdgeInsets.only(right: 8),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Text(
-                "Test",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                ),
-              ),
-            ),
+            for (var type in types) _typeTag(type.name),
           ],
         ),
       ],
@@ -137,33 +134,20 @@ Widget _pokeballBackground(AnimationController controller) {
   );
 }
 
-Widget _bottomInfoCard(String imageUrl, String heroTag) {
-  return Expanded(
-    child: Stack(
-      clipBehavior: Clip.none,
-      alignment: AlignmentDirectional.center,
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(32),
-              topRight: Radius.circular(32),
-            ),
-            color: Colors.white,
-          ),
-          child: const LoadingIndicator(),
-        ),
-        Positioned(
-          top: -260,
-          child: Hero(
-            tag: heroTag,
-            child: Image.network(
-              imageUrl,
-              height: 300,
-            ),
-          ),
-        ),
-      ],
+Widget _typeTag(String text) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    margin: const EdgeInsets.only(right: 8),
+    decoration: BoxDecoration(
+      color: Colors.white.withOpacity(0.4),
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Text(
+      text.toTitleCase(),
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 12,
+      ),
     ),
   );
 }

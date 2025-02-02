@@ -4,8 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:pokedex/data/datasources/pokeapi_datasource.dart';
 import 'package:pokedex/data/repositories/pokemon_data_repository.dart';
 import 'package:pokedex/domain/repositories/pokemon_repository.dart';
-import 'package:pokedex/domain/usecases/get_pokemon_by_name_usecase.dart';
+import 'package:pokedex/domain/usecases/get_pokemon_details_usecase.dart';
 import 'package:pokedex/domain/usecases/get_pokemon_list_usecase.dart';
+import 'package:pokedex/presentation/bloc/details_page/pokemon_details_page_cubit.dart';
 import 'package:pokedex/presentation/bloc/homepage/homepage_cubit.dart';
 import 'presentation/pages/homepage.dart';
 import 'package:provider/provider.dart';
@@ -31,15 +32,20 @@ class MainApp extends StatelessWidget {
         Provider<GetPokemonListUsecase>(
           create: (context) => GetPokemonListUsecase(context.read<PokemonRepository>()),
         ),
-        Provider<GetPokemonByNameUsecase>(
+        Provider<GetPokemonDetailsUsecase>(
           create: (context) =>
-              GetPokemonByNameUsecase(pokemonRepository: context.read<PokemonRepository>()),
+              GetPokemonDetailsUsecase(pokemonRepository: context.read<PokemonRepository>()),
         ),
         BlocProvider<HomepageCubit>(
           create: (context) => HomepageCubit(
-              getPokemonListUsecase: context.read<GetPokemonListUsecase>(),
-              getPokemonByNameUsecase: context.read<GetPokemonByNameUsecase>()),
+            getPokemonListUsecase: context.read<GetPokemonListUsecase>(),
+          ),
         ),
+        BlocProvider<PokemonDetailsPageCubit>(
+          create: (context) => PokemonDetailsPageCubit(
+            getPokemonDetailsUsecase: context.read<GetPokemonDetailsUsecase>(),
+          ),
+        )
       ],
       child: const MaterialApp(
         home: Scaffold(

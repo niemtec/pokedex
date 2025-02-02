@@ -1,4 +1,4 @@
-import 'package:pokedex/domain/entities/pokemon_profile.dart';
+import 'package:pokedex/domain/entities/pokemon_summary.dart';
 import 'package:pokedex/domain/repositories/pokemon_repository.dart';
 
 class GetPokemonListUsecase {
@@ -6,7 +6,7 @@ class GetPokemonListUsecase {
 
   GetPokemonListUsecase(this.repository);
 
-  Future<List<PokemonProfile>> call({int offset = 0}) async {
+  Future<List<PokemonSummary>> call({int offset = 0}) async {
     return repository.getPokemonList(offset);
   }
 }

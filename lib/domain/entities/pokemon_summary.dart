@@ -1,13 +1,13 @@
 import 'package:pokedex/domain/entities/pokemon_type.dart';
 
-class PokemonProfile {
+class PokemonSummary {
   final String id;
   final String name;
   final String imageUrl;
   final List<PokemonType> types;
   final List<String> abilities;
 
-  PokemonProfile({
+  PokemonSummary({
     required this.id,
     required this.name,
     required this.imageUrl,

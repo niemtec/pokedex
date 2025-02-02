@@ -1,13 +1,13 @@
-import 'package:pokedex/data/models/pokemon_profile_model.dart';
-import 'package:pokedex/domain/entities/pokemon_profile.dart';
+import 'package:pokedex/data/models/pokemon_summary_model.dart';
+import 'package:pokedex/domain/entities/pokemon_summary.dart';
 import 'package:pokedex/domain/entities/pokemon_type.dart';
 
-class PokemonProfileModelMapper {
-  static List<PokemonProfile> toDomain(List<PokemonProfileModel> pokemonList) {
-    List<PokemonProfile> pokemonProfileList = [];
+class PokemonSummaryMapper {
+  static List<PokemonSummary> toDomain(List<PokemonSummaryModel> pokemonList) {
+    List<PokemonSummary> pokemonProfileList = [];
 
     for (var pokemon in pokemonList) {
-      pokemonProfileList.add(PokemonProfile(
+      pokemonProfileList.add(PokemonSummary(
         id: pokemon.id,
         name: pokemon.name,
         imageUrl: pokemon.imageUrl,

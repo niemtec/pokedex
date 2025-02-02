@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-class PokemonProfileModel {
+class PokemonSummaryModel {
   final String id;
   final String name;
   final String imageUrl;
   final List<String> types;
   final List<String> abilities;
 
-  PokemonProfileModel({
+  PokemonSummaryModel({
     required this.id,
     required this.name,
     required this.imageUrl,
@@ -15,8 +15,8 @@ class PokemonProfileModel {
     required this.abilities,
   });
 
-  factory PokemonProfileModel.fromJson(Map<String, dynamic> jsonModel) {
-    return PokemonProfileModel(
+  factory PokemonSummaryModel.fromJson(Map<String, dynamic> jsonModel) {
+    return PokemonSummaryModel(
       id: jsonModel['id'].toString(),
       name: jsonModel['name'],
       // imageUrl: jsonModel['sprites']['front_default'],
@@ -30,8 +30,8 @@ class PokemonProfileModel {
     );
   }
 
-  static List<PokemonProfileModel> fromJsonList(String jsonString) {
+  static List<PokemonSummaryModel> fromJsonList(String jsonString) {
     final List<dynamic> jsonList = json.decode(jsonString);
-    return jsonList.map((json) => PokemonProfileModel.fromJson(json)).toList();
+    return jsonList.map((json) => PokemonSummaryModel.fromJson(json)).toList();
   }
 }

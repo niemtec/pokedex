@@ -1,9 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:pokedex/domain/entities/pokemon_profile.dart';
+import 'package:pokedex/domain/entities/pokemon_summary.dart';
 import 'package:pokedex/domain/entities/pokemon_type.dart';
 import 'package:pokedex/presentation/pages/pokemon_profile_page.dart';
-// import 'package:pokedex/presentation/pages/pokemon_details_page.dart';
 import 'package:pokedex/presentation/utils/extensions.dart';
 import 'package:pokedex/presentation/utils/slide_up_page_route.dart';
 import 'package:pokedex/presentation/utils/utilities.dart';
@@ -14,12 +13,12 @@ class PokemonProfileCard extends StatelessWidget {
     super.key,
   });
 
-  final PokemonProfile pokemonProfile;
+  final PokemonSummary pokemonProfile;
 
   @override
   Widget build(BuildContext context) {
     final Color baseColor = getPokemonTypeColour(pokemonProfile.types[0]);
-    final Color darkerColor = darkenColor(baseColor, 0.125); // Darken the color by 20%
+    final Color darkerColor = darkenColour(baseColor, 0.125); // Darken the color by 20%
 
     return GestureDetector(
       onTap: () {
@@ -27,9 +26,7 @@ class PokemonProfileCard extends StatelessWidget {
           context,
           SlideUpPageRoute(
             page: PokemonProfilePage(
-              pokemonName: pokemonProfile.name,
-              backgroundColor: baseColor,
-              imageUrl: pokemonProfile.imageUrl,
+              pokemonProfile: pokemonProfile,
               heroTag: 'pokemonImage-${pokemonProfile.id}',
             ),
           ),
