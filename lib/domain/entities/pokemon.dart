@@ -9,6 +9,8 @@ class Pokemon {
   final List<String> abilities;
   final Color accentColour;
   final String species;
+  final int height;
+  final int weight;
 
   Pokemon({
     required this.id,
@@ -18,5 +20,7 @@ class Pokemon {
     required this.abilities,
     required this.accentColour,
     required this.species,
+    required this.height,
+    required this.weight,
   });
 }

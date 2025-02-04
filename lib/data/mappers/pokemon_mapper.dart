@@ -18,6 +18,8 @@ class PokemonMapper {
           abilities: _mapPokemonAbilities(pokemon.abilities),
           accentColour: _getPokemonTypeColour(types.first),
           species: await _mapSpecies(pokemon.species),
+          height: pokemon.height,
+          weight: pokemon.weight,
         ),
       );
     }
