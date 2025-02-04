@@ -16,13 +16,13 @@ jobs:
         with:
           channel: "beta"
 
-      - name: Enable Flutter web
+      - name: Enable Flutter for Web
         run: flutter config --enable-web
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: flutter packages get
 
-      - name: Build web
+      - name: Build Web Project
         run: flutter build web --release --base-href '/roomie/'
 
       - name: Deploy
