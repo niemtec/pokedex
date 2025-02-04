@@ -65,6 +65,7 @@ class _PokemonProfilePageState extends State<PokemonProfilePage>
               pokemonName: widget.pokemon.name,
               id: widget.pokemon.id,
               types: widget.pokemon.types,
+              accentColour: widget.pokemon.accentColour,
               context: context),
           _pokeballBackground(_animationController),
           // _bottomInfoCard(widget.pokemonProfile.imageUrl, widget.heroTag)
@@ -82,6 +83,7 @@ Widget _topDetailArea(
     {required String pokemonName,
     required int id,
     required List<PokemonType> types,
+    required Color accentColour,
     required BuildContext context}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -92,12 +94,34 @@ Widget _topDetailArea(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                pokemonName.toTitleCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .displaySmall!
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Icon(
+                          types.first.iconForPokemonType,
+                          color: accentColour,
+                          size: 32 * 0.6,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    pokemonName.toTitleCase(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall!
+                        .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
               Text(
                 "#$id",
@@ -136,7 +160,7 @@ Widget _typeTag(String text) {
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     margin: const EdgeInsets.only(right: 8),
     decoration: BoxDecoration(
-      color: Colors.white.withOpacity(0.4),
+      color: Colors.white.withOpacity(0.3),
       borderRadius: BorderRadius.circular(16),
     ),
     child: Text(

@@ -34,7 +34,7 @@ class InfoCard extends StatelessWidget {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
+                    color: darkenColour(pokemon.accentColour, 0.05),
                     spreadRadius: 4,
                     blurRadius: 7,
                     offset: Offset(0, -4), // changes position of shadow
@@ -48,7 +48,8 @@ class InfoCard extends StatelessWidget {
                   const SizedBox(height: 16),
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(left: 34.0, right: 34.0, top: 16.0, bottom: 24.0),
+                      padding:
+                          const EdgeInsets.only(left: 34.0, right: 34.0, top: 16.0, bottom: 24.0),
                       child: TabBarView(
                         children: [
                           AboutTab(pokemon: pokemon),

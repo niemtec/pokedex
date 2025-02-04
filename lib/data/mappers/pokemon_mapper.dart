@@ -35,7 +35,7 @@ Future<String> _mapSpecies(Future<api.Either<Error, api.PokemonSpecies>> species
       return;
     },
     (value) {
-      genus = value.genera[7].genus;
+      genus = value.genera[7].genus.replaceAll(' Pokémon', '');
     },
   );
   return genus;

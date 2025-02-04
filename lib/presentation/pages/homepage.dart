@@ -47,7 +47,10 @@ class _HomepageState extends State<Homepage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _pokedexLogo(),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: _pokedexLogo(),
+                      ),
                       LayoutBuilder(
                         builder: (context, constraints) {
                           const maxWidth = 200.0;
