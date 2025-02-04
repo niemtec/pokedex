@@ -1,11 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:pokedex/domain/entities/pokemon_summary.dart';
+import 'package:pokedex/domain/entities/pokemon.dart';
 import 'package:pokedex/domain/entities/pokemon_type.dart';
 import 'package:pokedex/presentation/pages/pokemon_profile_page.dart';
 import 'package:pokedex/presentation/utils/extensions.dart';
 import 'package:pokedex/presentation/utils/slide_up_page_route.dart';
-import 'package:pokedex/presentation/utils/utilities.dart';
 
 class PokemonProfileCard extends StatelessWidget {
   const PokemonProfileCard({
@@ -13,20 +12,17 @@ class PokemonProfileCard extends StatelessWidget {
     super.key,
   });
 
-  final PokemonSummary pokemonProfile;
+  final Pokemon pokemonProfile;
 
   @override
   Widget build(BuildContext context) {
-    final Color baseColor = getPokemonTypeColour(pokemonProfile.types[0]);
-    final Color darkerColor = darkenColour(baseColor, 0.125); // Darken the color by 20%
-
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           SlideUpPageRoute(
             page: PokemonProfilePage(
-              pokemonProfile: pokemonProfile,
+              pokemon: pokemonProfile,
               heroTag: 'pokemonImage-${pokemonProfile.id}',
             ),
           ),
@@ -39,7 +35,7 @@ class PokemonProfileCard extends StatelessWidget {
           width: 200.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: baseColor,
+            color: pokemonProfile.accentColour,
           ),
           child: Stack(
             children: [
@@ -54,7 +50,7 @@ class PokemonProfileCard extends StatelessWidget {
                 child: Hero(
                   tag: 'pokemonImage-${pokemonProfile.id}',
                   child: Image.network(
-                    pokemonProfile.imageUrl,
+                    pokemonProfile.sprite,
                     height: 80,
                     width: 80,
                   ),

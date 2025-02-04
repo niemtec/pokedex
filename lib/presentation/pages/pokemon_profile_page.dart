@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex/domain/entities/pokemon_summary.dart';
+import 'package:pokedex/domain/entities/pokemon.dart';
 import 'package:pokedex/domain/entities/pokemon_type.dart';
-import 'package:pokedex/presentation/bloc/details_page/pokemon_details_page_cubit.dart';
-import 'package:pokedex/presentation/bloc/details_page/pokemon_details_page_states.dart';
 import 'package:pokedex/presentation/utils/extensions.dart';
-import 'package:pokedex/presentation/utils/utilities.dart';
 import 'package:pokedex/presentation/widgets/info_card.dart';
-import 'package:pokedex/presentation/widgets/loading_indicator.dart';
 
 class PokemonProfilePage extends StatefulWidget {
-  final PokemonSummary pokemonProfile;
+  final Pokemon pokemon;
   final String heroTag;
 
   const PokemonProfilePage({
     super.key,
-    required this.pokemonProfile,
+    required this.pokemon,
     required this.heroTag,
   });
 
@@ -26,7 +21,6 @@ class PokemonProfilePage extends StatefulWidget {
 class _PokemonProfilePageState extends State<PokemonProfilePage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late final Color accentColour;
 
   @override
   void initState() {
@@ -35,7 +29,6 @@ class _PokemonProfilePageState extends State<PokemonProfilePage>
       duration: const Duration(seconds: 40),
       vsync: this,
     )..repeat();
-    accentColour = getPokemonTypeColour(widget.pokemonProfile.types[0]);
   }
 
   @override
@@ -64,19 +57,20 @@ class _PokemonProfilePageState extends State<PokemonProfilePage>
           ),
         ],
       ),
-      backgroundColor: accentColour,
+      backgroundColor: widget.pokemon.accentColour,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _topDetailArea(widget.pokemonProfile.name, widget.pokemonProfile.id,
-              widget.pokemonProfile.types, context),
+          _topDetailArea(
+              pokemonName: widget.pokemon.name,
+              id: widget.pokemon.id,
+              types: widget.pokemon.types,
+              context: context),
           _pokeballBackground(_animationController),
           // _bottomInfoCard(widget.pokemonProfile.imageUrl, widget.heroTag)
           InfoCard(
-            pokemonName: widget.pokemonProfile.name,
-            imageUrl: widget.pokemonProfile.imageUrl,
+            pokemon: widget.pokemon,
             heroTag: widget.heroTag,
-            accentColour: accentColour,
           ),
         ],
       ),
@@ -85,7 +79,10 @@ class _PokemonProfilePageState extends State<PokemonProfilePage>
 }
 
 Widget _topDetailArea(
-    String pokemonName, String id, List<PokemonType> types, BuildContext context) {
+    {required String pokemonName,
+    required int id,
+    required List<PokemonType> types,
+    required BuildContext context}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16.0),
     child: Column(

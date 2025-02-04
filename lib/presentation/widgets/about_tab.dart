@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/domain/entities/pokemon.dart';
+import 'package:pokedex/presentation/utils/extensions.dart';
 
 class AboutTab extends StatelessWidget {
-  const AboutTab({super.key});
+  final Pokemon pokemon;
+  const AboutTab({required this.pokemon, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [_title("Title"), _description("text")],
-        )
+        _tabRow("Species", [pokemon.species]),
+        _tabRow("Abilities", pokemon.abilities),
       ],
     );
   }
+}
+
+Widget _tabRow(String rowTitle, List<String> rowContent) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [_title(rowTitle), _description(rowContent)],
+  );
 }
 
 Widget _title(String text) {
@@ -26,6 +34,23 @@ Widget _title(String text) {
   );
 }
 
-Widget _description(String text) {
+Widget _description(List<String> textList) {
+  String text = "";
+
+  if (textList.isEmpty) {
+    text = "";
+  }
+
+  if (textList.length == 1) {
+    text = textList.first;
+  } else {
+    for (var i = 0; i < textList.length; i++) {
+      text += textList[i].toTitleCase();
+      if (i != textList.length - 1) {
+        text += ", ";
+      }
+    }
+  }
+
   return Text(text);
 }

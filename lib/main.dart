@@ -4,9 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:pokedex/data/datasources/pokeapi_datasource.dart';
 import 'package:pokedex/data/repositories/pokemon_data_repository.dart';
 import 'package:pokedex/domain/repositories/pokemon_repository.dart';
-import 'package:pokedex/domain/usecases/get_pokemon_details_usecase.dart';
-import 'package:pokedex/domain/usecases/get_pokemon_list_usecase.dart';
-import 'package:pokedex/presentation/bloc/details_page/pokemon_details_page_cubit.dart';
+import 'package:pokedex/domain/usecases/get_pokemons_usecase.dart';
+
 import 'package:pokedex/presentation/bloc/homepage/homepage_cubit.dart';
 import 'presentation/pages/homepage.dart';
 import 'package:provider/provider.dart';
@@ -24,28 +23,19 @@ class MainApp extends StatelessWidget {
       providers: [
         Provider<http.Client>(create: (_) => http.Client()),
         Provider<PokeapiDatasource>(
-          create: (context) => PokeapiDatasourceImpl(context.read<http.Client>()),
+          create: (context) => PokeapiDatasourceImpl(),
         ),
         Provider<PokemonRepository>(
           create: (context) => PokemonDataRepositoryImpl(context.read<PokeapiDatasource>()),
         ),
-        Provider<GetPokemonListUsecase>(
-          create: (context) => GetPokemonListUsecase(context.read<PokemonRepository>()),
-        ),
-        Provider<GetPokemonDetailsUsecase>(
-          create: (context) =>
-              GetPokemonDetailsUsecase(pokemonRepository: context.read<PokemonRepository>()),
+        Provider<GetPokemonsUsecase>(
+          create: (context) => GetPokemonsUsecase(context.read<PokemonRepository>()),
         ),
         BlocProvider<HomepageCubit>(
           create: (context) => HomepageCubit(
-            getPokemonListUsecase: context.read<GetPokemonListUsecase>(),
+            getPokemonListUsecase: context.read<GetPokemonsUsecase>(),
           ),
         ),
-        BlocProvider<PokemonDetailsPageCubit>(
-          create: (context) => PokemonDetailsPageCubit(
-            getPokemonDetailsUsecase: context.read<GetPokemonDetailsUsecase>(),
-          ),
-        )
       ],
       child: const MaterialApp(
         home: Scaffold(

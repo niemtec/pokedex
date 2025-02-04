@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/presentation/bloc/homepage/homepage_states.dart';
-import 'package:pokedex/domain/usecases/get_pokemon_list_usecase.dart';
+import 'package:pokedex/domain/usecases/get_pokemons_usecase.dart';
 
 class HomepageCubit extends Cubit<HomepageState> {
-  final GetPokemonListUsecase _getPokemonListUsecase;
+  final GetPokemonsUsecase _getPokemonListUsecase;
 
   HomepageCubit({
-    required GetPokemonListUsecase getPokemonListUsecase,
+    required GetPokemonsUsecase getPokemonListUsecase,
   })  : _getPokemonListUsecase = getPokemonListUsecase,
         super(HomepageInitial());
 

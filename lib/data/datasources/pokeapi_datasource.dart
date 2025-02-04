@@ -1,55 +1,39 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
-import 'package:pokedex/data/models/pokemon_details_model.dart';
-import 'package:pokedex/data/models/pokemon_summary_model.dart';
+import 'package:pokeapi_wrapper/pokeapi_wrapper.dart' as api;
 
 abstract class PokeapiDatasource {
-  // Future<Pokemon> getPokemonByName(String name);
-  Future<List<PokemonSummaryModel>> getPokemonList({int offset = 0});
-  Future<PokemonDetailsModel> getPokemonDetailsByName({required String pokemonName});
+  Future<List<api.Pokemon>> getPokemons({int offset = 0});
 }
 
 class PokeapiDatasourceImpl implements PokeapiDatasource {
-  final http.Client client;
-
-  PokeapiDatasourceImpl(this.client);
-
   @override
-  Future<List<PokemonSummaryModel>> getPokemonList({int offset = 0}) async {
-    List<PokemonSummaryModel> pokemonList = [];
+  Future<List<api.Pokemon>> getPokemons({int offset = 0}) async {
+    final pokemonListResponse = await api.PokeApi.getPokemonList(limit: 12, offSet: offset);
 
-    final response =
-        await client.get(Uri.parse('https://pokeapi.co/api/v2/pokemon?limit=12&offset=$offset'));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List results = data['results'];
-
-      for (var result in results) {
-        final pokemonDetailsResponse =
-            await client.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/${result['name']}'));
-
-        if (pokemonDetailsResponse.statusCode == 200) {
-          final pokemonDetailsData = json.decode(pokemonDetailsResponse.body);
-          pokemonList.add(PokemonSummaryModel.fromJson(pokemonDetailsData));
-        } else {
-          throw Exception('Failed to load pokemon list');
+    return pokemonListResponse.fold(
+      (error) {
+        throw Exception("Error fetching Pokémon list: $error");
+      },
+      (pokemonList) async {
+        if (pokemonList.isEmpty) {
+          return [];
         }
-      }
-      return pokemonList;
-    } else {
-      throw Exception('Failed to load pokemon list');
-    }
-  }
+        final List<Future<api.Pokemon?>> fetchTasks = pokemonList.map((resource) async {
+          return await resource.getPokemon().then((response) => response.fold(
+                (error) {
+                  throw Exception("Error fetching Pokémon details: $error");
+                },
+                (pokemonDetails) {
+                  return pokemonDetails;
+                },
+              ));
+        }).toList();
 
-  @override
-  Future<PokemonDetailsModel> getPokemonDetailsByName({required String pokemonName}) async {
-    final response = await client.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$pokemonName'));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      return PokemonDetailsModel.fromJson(data);
-    } else {
-      throw Exception('Failed to load pokemon');
-    }
+        // Wait for all fetches to complete
+        final result = await Future.wait(fetchTasks);
+
+        // Remove null results and return a clean list
+        return result.whereType<api.Pokemon>().toList();
+      },
+    );
   }
 }
