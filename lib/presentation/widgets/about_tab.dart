@@ -10,10 +10,17 @@ class AboutTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _tabRow(Icons.group, pokemon.accentColour, "Species", pokemon.species),
-        _tabRow(Icons.straighten, pokemon.accentColour, "Height", _formatHeight(pokemon.height)),
-        _tabRow(Icons.scale_rounded, pokemon.accentColour, "Weight", _formatWeight(pokemon.weight)),
-        _tabRow(Icons.star, pokemon.accentColour, "Abilities", _deliminateList(pokemon.abilities)),
+        _tabRow(Icons.group, pokemon.types.first.color, "Species", pokemon.species),
+        _tabRow(
+            Icons.straighten, pokemon.types.first.color, "Height", _formatHeight(pokemon.height)),
+        _tabRow(Icons.scale_rounded, pokemon.types.first.color, "Weight",
+            _formatWeight(pokemon.weight)),
+        _tabRow(
+          Icons.star,
+          pokemon.types.first.color,
+          "Abilities",
+          pokemon.abilities.map((value) => value.toTitleCase()).join(", "),
+        ),
       ],
     );
   }
@@ -105,25 +112,4 @@ String _formatWeight(int weightInHectograms) {
   return stones == 0
       ? "${weightInHectograms / 10}kg (${pounds.toStringAsFixed(2)} lbs)"
       : "${weightInHectograms / 10}kg (${stones}st ${pounds.toStringAsFixed(2)} lbs)";
-}
-
-String _deliminateList(List<String> list) {
-  String text = "";
-
-  if (list.isEmpty) {
-    text = "";
-  }
-
-  if (list.length == 1) {
-    text = list.first;
-  } else {
-    for (var i = 0; i < list.length; i++) {
-      text += list[i].toTitleCase();
-      if (i != list.length - 1) {
-        text += ", ";
-      }
-    }
-  }
-
-  return text;
 }

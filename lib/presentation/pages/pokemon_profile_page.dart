@@ -57,7 +57,7 @@ class _PokemonProfilePageState extends State<PokemonProfilePage>
           ),
         ],
       ),
-      backgroundColor: widget.pokemon.accentColour,
+      backgroundColor: widget.pokemon.types.first.color,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -65,7 +65,7 @@ class _PokemonProfilePageState extends State<PokemonProfilePage>
               pokemonName: widget.pokemon.name,
               id: widget.pokemon.id,
               types: widget.pokemon.types,
-              accentColour: widget.pokemon.accentColour,
+              accentColour: widget.pokemon.types.first.color,
               context: context),
           _pokeballBackground(_animationController),
           // _bottomInfoCard(widget.pokemonProfile.imageUrl, widget.heroTag)

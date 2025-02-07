@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:pokedex/domain/entities/pokemon.dart';
 import 'package:pokedex/presentation/widgets/about_tab.dart';
@@ -34,17 +32,17 @@ class InfoCard extends StatelessWidget {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: darkenColour(pokemon.accentColour, 0.05),
+                    color: darkenColour(pokemon.types.first.color, 0.05),
                     spreadRadius: 4,
                     blurRadius: 7,
-                    offset: Offset(0, -4), // changes position of shadow
+                    offset: const Offset(0, -4), // changes position of shadow
                   ),
                 ],
               ),
               child: Column(
                 children: [
                   const SizedBox(height: 42),
-                  _tabs(pokemon.accentColour),
+                  _tabs(pokemon.types.first.color),
                   const SizedBox(height: 16),
                   Expanded(
                     child: Padding(

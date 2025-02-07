@@ -35,7 +35,7 @@ class PokemonProfileCard extends StatelessWidget {
           width: 200.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: pokemonProfile.accentColour,
+            color: pokemonProfile.types.first.color,
           ),
           child: Stack(
             children: [

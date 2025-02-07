@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:pokedex/domain/entities/pokemon_type.dart';
 
 class Pokemon {
@@ -7,7 +6,6 @@ class Pokemon {
   final String sprite;
   final List<PokemonType> types;
   final List<String> abilities;
-  final Color accentColour;
   final String species;
   final int height;
   final int weight;
@@ -18,7 +16,6 @@ class Pokemon {
     required this.sprite,
     required this.types,
     required this.abilities,
-    required this.accentColour,
     required this.species,
     required this.height,
     required this.weight,
