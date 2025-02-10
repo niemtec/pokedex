@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:pokedex/domain/entities/pokemon.dart';
 import 'package:pokedex/domain/entities/pokemon_type.dart';
 import 'package:pokeapi_wrapper/pokeapi_wrapper.dart' as api;
@@ -66,37 +65,12 @@ Future<List<PokemonType>> _mapPokemonTypes(List<api.PokemonType> types) async {
       },
       (type) => {
         pokemonTypes.add(
-          _getPokemonType(type),
+          PokemonType.values.byName(type.name),
+          // _getPokemonType(type),
         ),
       },
     );
   }
 
   return pokemonTypes;
-}
-
-PokemonType _getPokemonType(api.Type type) {
-  return switch (type.name) {
-    'normal' => PokemonType.normal,
-    'fighting' => PokemonType.fighting,
-    'flying' => PokemonType.flying,
-    'poison' => PokemonType.poison,
-    'ground' => PokemonType.ground,
-    'rock' => PokemonType.rock,
-    'bug' => PokemonType.bug,
-    'ghost' => PokemonType.ghost,
-    'steel' => PokemonType.steel,
-    'fire' => PokemonType.fire,
-    'water' => PokemonType.water,
-    'grass' => PokemonType.grass,
-    'electric' => PokemonType.electric,
-    'psychic' => PokemonType.psychic,
-    'ice' => PokemonType.ice,
-    'dragon' => PokemonType.dragon,
-    'dark' => PokemonType.dark,
-    'fairy' => PokemonType.fairy,
-    'unknown' => PokemonType.unknown,
-    'shadow' => PokemonType.shadow,
-    _ => PokemonType.unknown
-  };
 }
