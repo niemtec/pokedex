@@ -4,7 +4,6 @@ import 'package:pokedex/presentation/bloc/homepage/homepage_cubit.dart';
 import 'package:pokedex/presentation/bloc/homepage/homepage_states.dart';
 import 'package:pokedex/presentation/widgets/loading_indicator.dart';
 import 'package:pokedex/presentation/widgets/pokemon_profile_card.dart';
-import 'package:skeleton_loader/skeleton_loader.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
