@@ -14,11 +14,21 @@ class HomepageLoading extends HomepageState {}
 
 class HomepageLoaded extends HomepageState {
   final List<Pokemon> pokemonList;
+  final bool hasMoreItems;
+  // final bool isLoadingNextItems;
 
-  const HomepageLoaded(this.pokemonList);
+  const HomepageLoaded({
+    required this.pokemonList,
+    required this.hasMoreItems,
+    // required this.isLoadingNextItems,
+  });
 
   @override
-  List<Object> get props => [pokemonList];
+  List<Object> get props => [
+        pokemonList,
+        hasMoreItems,
+        // isLoadingNextItems,
+      ];
 }
 
 class HomepageError extends HomepageState {

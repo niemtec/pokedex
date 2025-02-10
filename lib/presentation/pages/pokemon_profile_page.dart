@@ -101,7 +101,7 @@ Widget _topDetailArea(
                     child: Container(
                       width: 32,
                       height: 32,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
