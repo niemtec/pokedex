@@ -38,11 +38,7 @@ class MainApp extends StatelessWidget {
         ),
       ],
       child: const MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: Homepage(),
-          ),
-        ),
+        home: Homepage(),
       ),
     );
   }

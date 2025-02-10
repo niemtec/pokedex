@@ -34,7 +34,12 @@ Widget _tabRow(IconData icon, Color accentColour, String rowTitle, String rowCon
         borderRadius: BorderRadius.circular(25.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0, left: 4.0, right: 16.0),
+        padding: const EdgeInsets.only(
+          top: 4.0,
+          bottom: 4.0,
+          left: 4.0,
+          right: 16.0,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
