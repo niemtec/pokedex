@@ -1,4 +1,6 @@
+import 'package:pokedex/domain/entities/height.dart';
 import 'package:pokedex/domain/entities/pokemon_type.dart';
+import 'package:pokedex/domain/entities/weight.dart';
 
 class Pokemon {
   final int id;
@@ -7,8 +9,8 @@ class Pokemon {
   final List<PokemonType> types;
   final List<String> abilities;
   final String species;
-  final int height;
-  final int weight;
+  final Height height;
+  final Weight weight;
 
   Pokemon({
     required this.id,

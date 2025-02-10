@@ -13,7 +13,7 @@ enum PokemonType {
   flying(color: Color(0xFFA98FF3)),
   psychic(color: Color(0xFFF95587)),
   bug(color: Color(0xFFA6B91A)),
-  rock(color: Color(0xFFB6A136)),
+  rock(color: Color.fromARGB(255, 164, 162, 152)),
   ghost(color: Color(0xFF735797)),
   dragon(color: Color(0xFF6F35FC)),
   dark(color: Color(0xFF705746)),

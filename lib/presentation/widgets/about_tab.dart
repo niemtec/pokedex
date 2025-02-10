@@ -11,10 +11,9 @@ class AboutTab extends StatelessWidget {
     return Column(
       children: [
         _tabRow(Icons.group, pokemon.types.first.color, "Species", pokemon.species),
+        _tabRow(Icons.straighten, pokemon.types.first.color, "Height", pokemon.height.toString()),
         _tabRow(
-            Icons.straighten, pokemon.types.first.color, "Height", _formatHeight(pokemon.height)),
-        _tabRow(Icons.scale_rounded, pokemon.types.first.color, "Weight",
-            _formatWeight(pokemon.weight)),
+            Icons.scale_rounded, pokemon.types.first.color, "Weight", pokemon.weight.toString()),
         _tabRow(
           Icons.star,
           pokemon.types.first.color,
@@ -57,59 +56,18 @@ Widget _tabRow(IconData icon, Color accentColour, String rowTitle, String rowCon
                 ),
               ),
             ),
-            _title(rowTitle),
+            Text(
+              rowTitle,
+              style: const TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const Spacer(),
-            _description(rowContent)
+            Text(rowContent),
           ],
         ),
       ),
     ),
   );
-}
-
-Widget _title(String text) {
-  return Text(
-    text,
-    style: const TextStyle(
-      fontSize: 16.0,
-      fontWeight: FontWeight.bold,
-    ),
-  );
-}
-
-Widget _description(String text) {
-  return Text(text);
-}
-
-String _formatHeight(int heightInDecimeters) {
-  double cm = heightInDecimeters * 10;
-  double inches = cm / 2.54;
-
-  // Metric: cm or m
-  String metric = cm < 100 ? '${cm.toInt()}cm' : '${(cm / 100).toStringAsFixed(2)}m';
-
-  // Imperial: inches or feet + inches
-  String imperial;
-  if (inches < 12) {
-    imperial = '${inches.toStringAsFixed(1)}inches';
-  } else {
-    int feet = inches ~/ 12;
-    double remainingInches = inches % 12;
-    imperial = '${feet}ft ${remainingInches.toStringAsFixed(1)}in';
-  }
-
-  return '$metric ($imperial)';
-}
-
-String _formatWeight(int weightInHectograms) {
-  const double hgPerPound = 4.53592;
-  const double poundsPerStone = 14;
-
-  double totalPounds = weightInHectograms / hgPerPound;
-  int stones = totalPounds ~/ poundsPerStone;
-  double pounds = totalPounds % poundsPerStone;
-
-  return stones == 0
-      ? "${weightInHectograms / 10}kg (${pounds.toStringAsFixed(2)} lbs)"
-      : "${weightInHectograms / 10}kg (${stones}st ${pounds.toStringAsFixed(2)} lbs)";
 }

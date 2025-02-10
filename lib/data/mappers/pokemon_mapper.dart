@@ -1,6 +1,8 @@
+import 'package:pokedex/domain/entities/height.dart';
 import 'package:pokedex/domain/entities/pokemon.dart';
 import 'package:pokedex/domain/entities/pokemon_type.dart';
 import 'package:pokeapi_wrapper/pokeapi_wrapper.dart' as api;
+import 'package:pokedex/domain/entities/weight.dart';
 
 class PokemonMapper {
   static Future<List<Pokemon>> toDomain(List<api.Pokemon> pokemonList) async {
@@ -13,8 +15,8 @@ class PokemonMapper {
           types: await _mapPokemonTypes(pokemon.types),
           abilities: await _mapPokemonAbilities(pokemon.abilities),
           species: await _mapSpecies(pokemon.species),
-          height: pokemon.height,
-          weight: pokemon.weight,
+          height: Height.fromDecimetres(pokemon.height.toDouble()),
+          weight: Weight.fromHectograms(pokemon.weight.toDouble()),
         ),
       ),
     );
