@@ -23,7 +23,7 @@ jobs:
         run: flutter packages get
 
       - name: Build web
-        run: flutter build web --release --base-href '/roomie/'
+        run: flutter build web --release --base-href '/pokedex/'
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
