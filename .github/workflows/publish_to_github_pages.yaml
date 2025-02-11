@@ -23,7 +23,7 @@ jobs:
         run: flutter packages get
 
       - name: Build web
-        run: flutter build web --release --base-href '/pokedex/'
+        run: flutter build web --release --source-maps --base-href '/pokedex/'
         
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
