@@ -24,9 +24,12 @@ jobs:
 
       - name: Build web
         run: flutter build web --release --base-href '/pokedex/'
-
-      - name: Deploy
+        
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.commit_secret }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
+          publish_branch: gh-pages
+          user_name: "github-actions"
+          user_email: "github-actions@github.com"
