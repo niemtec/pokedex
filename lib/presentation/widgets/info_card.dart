@@ -51,9 +51,9 @@ class InfoCard extends StatelessWidget {
                       child: TabBarView(
                         children: [
                           AboutTab(pokemon: pokemon),
-                          Icon(Icons.directions_transit),
-                          Icon(Icons.directions_bike),
-                          Icon(Icons.directions_bike),
+                          const Icon(Icons.directions_transit),
+                          const Icon(Icons.directions_bike),
+                          const Icon(Icons.directions_bike),
                         ],
                       ),
                     ),

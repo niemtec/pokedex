@@ -107,7 +107,7 @@ Widget _topDetailArea(
                       ),
                       child: Center(
                         child: Icon(
-                          types.first.iconForPokemonType,
+                          types.first.icon,
                           color: accentColour,
                           size: 32 * 0.6,
                         ),
@@ -125,10 +125,8 @@ Widget _topDetailArea(
               ),
               Text(
                 "#$id",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: Colors.white.withOpacity(0.6), fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Colors.white.withValues(alpha: 0.6), fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -150,7 +148,7 @@ Widget _pokeballBackground(AnimationController controller) {
       'assets/pokeball-white.png',
       width: 250,
       height: 250,
-      color: Colors.white.withOpacity(0.2),
+      color: Colors.white.withValues(alpha: 0.2),
     ),
   );
 }
@@ -160,7 +158,7 @@ Widget _typeTag(String text) {
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     margin: const EdgeInsets.only(right: 8),
     decoration: BoxDecoration(
-      color: Colors.white.withOpacity(0.3),
+      color: Colors.white.withValues(alpha: 0.3),
       borderRadius: BorderRadius.circular(16),
     ),
     child: Text(

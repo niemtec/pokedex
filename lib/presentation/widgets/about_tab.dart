@@ -10,7 +10,7 @@ class AboutTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _tabRow(Icons.group, pokemon.types.first.color, "Species", pokemon.species),
+        // _tabRow(Icons.group, pokemon.types.first.color, "Species", pokemon.species),
         _tabRow(Icons.straighten, pokemon.types.first.color, "Height", pokemon.height.toString()),
         _tabRow(
             Icons.scale_rounded, pokemon.types.first.color, "Weight", pokemon.weight.toString()),
@@ -30,7 +30,7 @@ Widget _tabRow(IconData icon, Color accentColour, String rowTitle, String rowCon
     padding: const EdgeInsets.only(bottom: 20.0),
     child: Container(
       decoration: BoxDecoration(
-        color: accentColour.withOpacity(0.2),
+        color: accentColour.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(25.0),
       ),
       child: Padding(

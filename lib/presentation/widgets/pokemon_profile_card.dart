@@ -51,8 +51,8 @@ class PokemonProfileCard extends StatelessWidget {
                   tag: 'pokemonImage-${pokemonProfile.id}',
                   child: Image.network(
                     pokemonProfile.sprite,
-                    height: 80,
-                    width: 80,
+                    height: 100,
+                    width: 100,
                   ),
                 ),
               ),

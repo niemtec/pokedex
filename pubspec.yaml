@@ -1,5 +1,5 @@
 name: pokedex
-description: "A new Flutter project."
+description: "A Pokedex app for displaying details about Pokemon"
 publish_to: 'none'
 version: 0.1.0
 
@@ -13,17 +13,20 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^9.0.0
   flutter_staggered_grid_view: ^0.7.0
+  freezed_annotation: ^2.4.1
+  get_it: ^8.0.3
+  graphql_flutter: ^5.2.0-beta.8
   http: ^1.3.0
-  json_annotation: ^4.9.0
-  pokeapi_wrapper: ^0.0.4
+  json_annotation: ^4.8.1
   provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
-  build_runner: ^2.4.13
-  json_serializable: ^6.9.0
+  build_runner: ^2.4.7
+  json_serializable: ^6.7.1
+  freezed: ^2.4.6
 
 flutter:
   uses-material-design: true

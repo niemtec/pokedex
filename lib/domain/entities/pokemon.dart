@@ -8,7 +8,6 @@ class Pokemon {
   final String sprite;
   final List<PokemonType> types;
   final List<String> abilities;
-  final String species;
   final Height height;
   final Weight weight;
 
@@ -18,7 +17,6 @@ class Pokemon {
     required this.sprite,
     required this.types,
     required this.abilities,
-    required this.species,
     required this.height,
     required this.weight,
   });

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
-import 'package:pokedex/data/datasources/pokeapi_datasource.dart';
-import 'package:pokedex/data/repositories/pokemon_data_repository.dart';
+import 'package:pokedex/core/di/service_locator.dart';
+import 'package:pokedex/data/datasources/pokemon_remote_data_source.dart';
 import 'package:pokedex/domain/repositories/pokemon_repository.dart';
 import 'package:pokedex/domain/usecases/get_pokemons_usecase.dart';
 
@@ -11,6 +10,7 @@ import 'presentation/pages/homepage.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  initialiseDependencies();
   runApp(const MainApp());
 }
 
@@ -21,20 +21,18 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<http.Client>(create: (_) => http.Client()),
-        Provider<PokeapiDatasource>(
-          create: (context) => PokeapiDatasourceImpl(),
+        // Provider<http.Client>(create: (_) => http.Client()),
+        Provider<PokemonRemoteDataSource>(
+          create: (_) => getIt<PokemonRemoteDataSource>(),
         ),
         Provider<PokemonRepository>(
-          create: (context) => PokemonDataRepositoryImpl(context.read<PokeapiDatasource>()),
+          create: (_) => getIt<PokemonRepositoryImpl>(),
         ),
         Provider<GetPokemonsUsecase>(
-          create: (context) => GetPokemonsUsecase(context.read<PokemonRepository>()),
+          create: (_) => getIt<GetPokemonsUsecase>(),
         ),
         BlocProvider<HomepageCubit>(
-          create: (context) => HomepageCubit(
-            getPokemonListUsecase: context.read<GetPokemonsUsecase>(),
-          ),
+          create: (_) => getIt<HomepageCubit>(),
         ),
       ],
       child: const MaterialApp(
