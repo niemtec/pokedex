@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/presentation/bloc/homepage/homepage_cubit.dart';
 import 'package:pokedex/presentation/bloc/homepage/homepage_states.dart';
 import 'package:pokedex/presentation/widgets/loading_indicator.dart';
-import 'package:pokedex/presentation/widgets/pokemon_profile_card.dart';
+import 'package:pokedex/presentation/widgets/pokemon_mini_profile_card.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -85,7 +85,7 @@ class _HomepageState extends State<Homepage> {
                                   : const SizedBox.shrink();
                             }
                             final pokemon = state.pokemonList[index];
-                            return PokemonProfileCard(
+                            return PokemonMiniProfileCard(
                               pokemonProfile: pokemon,
                             );
                           },
@@ -128,8 +128,8 @@ Widget _pokedexLogo() {
         ]),
         child: Image.asset(
           'assets/pokeball-white.png',
-          width: 60,
-          height: 60,
+          width: 80,
+          height: 80,
         ),
       ),
       const Text(

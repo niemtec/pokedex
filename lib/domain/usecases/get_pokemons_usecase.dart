@@ -7,6 +7,6 @@ class GetPokemonsUsecase {
   GetPokemonsUsecase(this.repository);
 
   Future<List<Pokemon>> call({int offset = 0}) async {
-    return repository.getPokemons(offset: offset, limit: 20);
+    return repository.getPokemons(offset: offset, limit: 50);
   }
 }
