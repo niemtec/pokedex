@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/presentation/widgets/logo_widget.dart';
 
 enum LoaderSize { small, medium, large }
 
@@ -62,11 +63,9 @@ class _LoadingIndicatorState extends State<LoadingIndicator> with SingleTickerPr
     return Center(
       child: RotationTransition(
         turns: controller,
-        child: Image.asset(
-          'assets/pokeball-white.png',
-          width: height,
-          height: height,
-          color: Colors.red.withOpacity(0.8),
+        child: LogoWidget(
+          size: height,
+          color: Colors.red.withValues(alpha: 0.8),
         ),
       ),
     );

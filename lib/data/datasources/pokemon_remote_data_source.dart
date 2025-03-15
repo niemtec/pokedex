@@ -1,24 +1,22 @@
+import 'package:flutter/material.dart';
+import 'package:pokedex/core/cache/cache_service.dart';
 import 'package:pokedex/core/network/graphql_client.dart';
+import 'package:pokedex/data/datasources/pokemon_exception.dart';
 import 'package:pokedex/data/models/pokemon_model.dart';
 
 class PokemonRemoteDataSource {
-  final GraphQLService graphQLService;
-
-  PokemonRemoteDataSource({required this.graphQLService});
-
-  Future<List<PokemonModel>> fetchPokemons({required int limit, required int offset}) async {
-    const String query = '''
-      query GetPokemon(\$limit: Int = 1, \$offset: Int = 0) {
-        pokemon_v2_pokemon(limit: \$limit, offset: \$offset) {
-          id
-          name
-          height
-          weight
-          pokemon_v2_pokemonsprites {
-            sprites(path: "other.home.front_shiny")
-          }
-          pokemon_v2_pokemontypes {
-            pokemon_v2_type {
+  static const String _pokemonQuery = '''
+    query GetPokemon(\$limit: Int = 1, \$offset: Int = 0) {
+      pokemon_v2_pokemon(limit: \$limit, offset: \$offset) {
+        id
+        name
+        height
+        weight
+        pokemon_v2_pokemonsprites {
+          sprites(path: "other.home.front_shiny")
+        }
+        pokemon_v2_pokemontypes {
+          pokemon_v2_type {
             name
           }
         }
@@ -42,43 +40,138 @@ class PokemonRemoteDataSource {
         }
       }
     }
-    ''';
+  ''';
 
-    final result = await graphQLService.query(query, variables: {"limit": limit, "offset": offset});
+  final GraphQLService graphQLService;
+  final CacheService cacheService;
 
-    if (result.hasException) {
-      throw Exception(result.exception.toString());
+  const PokemonRemoteDataSource({
+    required this.graphQLService,
+    required this.cacheService,
+  });
+
+  Future<List<PokemonModel>> fetchPokemons({
+    required int limit,
+    required int offset,
+    bool forceRefresh = false,
+  }) async {
+    try {
+      // Try to get cached data first
+      if (!forceRefresh) {
+        final cachedData = await cacheService.getCachedPokemonData();
+        if (cachedData != null) {
+          return cachedData.map((pokemon) => _mapToPokemonModel(pokemon)).toList();
+        }
+      }
+
+      // If no cache or force refresh, fetch from network
+      final result = await graphQLService.query(
+        _pokemonQuery,
+        variables: {"limit": limit, "offset": offset},
+      );
+
+      if (result.hasException) {
+        debugPrint('GraphQL Error: ${result.exception?.graphqlErrors}');
+        debugPrint('Network Error: ${result.exception?.linkException}');
+        throw QueryException(
+            'GraphQL query failed: ${result.exception?.toString() ?? "Unknown error"}');
+      }
+
+      if (result.data == null) {
+        throw const DataNotFoundException('Query returned null data');
+      }
+
+      final List<dynamic>? pokemonData = result.data?['pokemon_v2_pokemon'];
+
+      if (pokemonData == null || pokemonData.isEmpty) {
+        throw const DataNotFoundException('No Pokemon data found in response');
+      }
+
+      // Cache the new data
+      await cacheService.cachePokemonData(
+        List<Map<String, dynamic>>.from(pokemonData),
+      );
+
+      return pokemonData.map((pokemon) {
+        try {
+          return _mapToPokemonModel(pokemon);
+        } catch (e, stackTrace) {
+          debugPrint('Pokemon parsing error: $e');
+          debugPrint('Stack trace: $stackTrace');
+          throw DataParsingException(
+              'Failed to parse Pokemon: ${pokemon['name'] ?? 'unknown'}: $e');
+        }
+      }).toList();
+    } on QueryException {
+      rethrow;
+    } catch (e, stackTrace) {
+      debugPrint('Unexpected error: $e');
+      debugPrint('Stack trace: $stackTrace');
+      throw DataParsingException('Failed to fetch Pokemon data: $e');
     }
+  }
 
-    final List data = result.data?['pokemon_v2_pokemon'] ?? [];
-
-    return data.map((pokemon) {
-      // Extract and transform nested data
-      final sprites = pokemon['pokemon_v2_pokemonsprites'] as List;
-      final types = (pokemon['pokemon_v2_pokemontypes'] as List?)
-              ?.map((type) => type['pokemon_v2_type']['name'] as String)
-              .toList() ??
-          [];
-
-      final abilities = (pokemon['pokemon_v2_pokemonabilities_aggregate']['nodes'] as List?)
-              ?.map((ability) => ability['pokemon_v2_ability']['name'] as String)
-              .toList() ??
-          [];
-
+  PokemonModel _mapToPokemonModel(dynamic pokemon) {
+    try {
+      final sprites = _extractList(pokemon, 'pokemon_v2_pokemonsprites');
+      final types = _extractTypes(pokemon);
+      final abilities = _extractAbilities(pokemon);
       final species = pokemon['pokemon_v2_pokemonspecy'];
 
       return PokemonModel(
-        id: pokemon['id'] as int,
-        name: pokemon['name'] as String,
-        height: pokemon['height'] as int,
-        weight: pokemon['weight'] as int,
-        sprite: sprites.isNotEmpty ? sprites.first['sprites'] as String? ?? '' : '',
+        id: _extractInt(pokemon, 'id'),
+        name: _extractString(pokemon, 'name'),
+        height: _extractInt(pokemon, 'height'),
+        weight: _extractInt(pokemon, 'weight'),
+        sprite: sprites.isNotEmpty ? _extractString(sprites.first, 'sprites') : '',
         types: types,
         abilities: abilities,
-        color: species?['pokemon_v2_pokemoncolor']?['name'] as String? ?? '',
-        shape: species?['pokemon_v2_pokemonshape']?['name'] as String? ?? '',
-        habitat: species?['pokemon_v2_pokemonhabitat']?['name'] as String? ?? '',
+        color: _extractNestedString(species, ['pokemon_v2_pokemoncolor', 'name']),
+        shape: _extractNestedString(species, ['pokemon_v2_pokemonshape', 'name']),
+        habitat: _extractNestedString(species, ['pokemon_v2_pokemonhabitat', 'name']),
       );
-    }).toList();
+    } catch (e) {
+      throw DataParsingException('Failed to parse Pokemon model: $e');
+    }
+  }
+
+  List<String> _extractTypes(dynamic pokemon) {
+    final typesList = _extractList(pokemon, 'pokemon_v2_pokemontypes');
+    return typesList
+        .map((type) => _extractNestedString(type, ['pokemon_v2_type', 'name']))
+        .where((type) => type.isNotEmpty)
+        .toList();
+  }
+
+  List<String> _extractAbilities(dynamic pokemon) {
+    final nodes = _extractList(
+      pokemon['pokemon_v2_pokemonabilities_aggregate'],
+      'nodes',
+    );
+    return nodes
+        .map((node) => _extractNestedString(node, ['pokemon_v2_ability', 'name']))
+        .where((ability) => ability.isNotEmpty)
+        .toList();
+  }
+
+  List<dynamic> _extractList(dynamic data, String key) {
+    return (data[key] as List?) ?? [];
+  }
+
+  String _extractString(dynamic data, String key) {
+    return data[key]?.toString() ?? '';
+  }
+
+  int _extractInt(dynamic data, String key) {
+    return (data[key] as num?)?.toInt() ?? 0;
+  }
+
+  String _extractNestedString(dynamic data, List<String> keys) {
+    var current = data;
+    for (final key in keys) {
+      current = current?[key];
+      if (current == null) return '';
+    }
+    return current?.toString() ?? '';
   }
 }

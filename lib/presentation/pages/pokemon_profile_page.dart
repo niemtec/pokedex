@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pokedex/domain/entities/pokemon.dart';
 import 'package:pokedex/domain/entities/pokemon_type.dart';
 import 'package:pokedex/presentation/utils/extensions.dart';
 import 'package:pokedex/presentation/widgets/info_card.dart';
+import 'package:pokedex/presentation/widgets/logo_widget.dart';
 
 class PokemonProfilePage extends StatefulWidget {
   final Pokemon pokemon;
@@ -67,8 +69,21 @@ class _PokemonProfilePageState extends State<PokemonProfilePage>
               types: widget.pokemon.types,
               accentColour: widget.pokemon.types.first.color,
               context: context),
-          _pokeballBackground(_animationController),
-          // _bottomInfoCard(widget.pokemonProfile.imageUrl, widget.heroTag)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _navigationButton(
+                onPressed: () => {},
+                icon: FontAwesomeIcons.chevronLeft,
+                isEnabled: widget.pokemon.id > 1,
+              ),
+              _pokeballBackground(_animationController),
+              _navigationButton(
+                onPressed: () => {},
+                icon: FontAwesomeIcons.chevronRight,
+              ),
+            ],
+          ),
           InfoCard(
             pokemon: widget.pokemon,
             heroTag: widget.heroTag,
@@ -77,6 +92,20 @@ class _PokemonProfilePageState extends State<PokemonProfilePage>
       ),
     );
   }
+}
+
+Widget _navigationButton(
+    {required IconData icon, required Function() onPressed, bool isEnabled = true}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    child: IconButton(
+      onPressed: isEnabled ? onPressed : null,
+      icon: Icon(
+        icon,
+        color: isEnabled ? Colors.white : Colors.grey[700],
+      ),
+    ),
+  );
 }
 
 Widget _topDetailArea(
@@ -124,8 +153,8 @@ Widget _topDetailArea(
                 ],
               ),
               Text(
-                "#$id",
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                "#${id.toString().padLeft(3, '0')}",
+                style: Theme.of(context).textTheme.displaySmall!.copyWith(
                     color: Colors.white.withValues(alpha: 0.6), fontWeight: FontWeight.bold),
               ),
             ],
@@ -133,7 +162,7 @@ Widget _topDetailArea(
         ),
         Row(
           children: [
-            for (var type in types) _typeTag(type.name),
+            for (var type in types) _typeTag(type.name, context),
           ],
         ),
       ],
@@ -144,28 +173,26 @@ Widget _topDetailArea(
 Widget _pokeballBackground(AnimationController controller) {
   return RotationTransition(
     turns: controller,
-    child: Image.asset(
-      'assets/pokeball-white.png',
-      width: 250,
-      height: 250,
+    child: LogoWidget(
+      size: 250,
       color: Colors.white.withValues(alpha: 0.2),
     ),
   );
 }
 
-Widget _typeTag(String text) {
+Widget _typeTag(String text, BuildContext context) {
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-    margin: const EdgeInsets.only(right: 8),
+    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+    margin: const EdgeInsets.only(right: 8.0),
     decoration: BoxDecoration(
       color: Colors.white.withValues(alpha: 0.3),
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(65.0),
     ),
     child: Text(
       text.toTitleCase(),
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.white,
-        fontSize: 12,
+        fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
       ),
     ),
   );

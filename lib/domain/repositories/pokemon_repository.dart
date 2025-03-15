@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:pokedex/data/datasources/pokemon_remote_data_source.dart';
 import 'package:pokedex/data/models/pokemon_model.dart';
 import 'package:pokedex/domain/entities/height.dart';
@@ -37,6 +38,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
               ))
           .toList();
     } catch (e) {
+      debugPrint("Failed to fetch Pokémon: $e");
       throw Exception("Failed to fetch Pokémon: $e");
     }
   }

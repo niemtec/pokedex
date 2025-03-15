@@ -16,7 +16,7 @@ class HomepageCubit extends Cubit<HomepageState> {
   final List<Pokemon> _pokemonList = [];
   bool _hasMoreItems = true;
 
-  Future<void> getPokemon({bool isInitialLoad = false}) async {
+  Future<void> getPokemon({bool isFirstLoad = false}) async {
     // final currentState = state;
     // if (currentState is HomepageLoaded) {
     //   emit(HomepageLoading());
@@ -34,7 +34,7 @@ class HomepageCubit extends Cubit<HomepageState> {
     _isLoading = true;
     emit(HomepageLoading());
     try {
-      final result = await _getPokemonListUsecase(offset: isInitialLoad ? 0 : _page * 10);
+      final result = await _getPokemonListUsecase(offset: isFirstLoad ? 0 : _page * 10);
       if (result.isEmpty) {
         _hasMoreItems = false;
       } else {
@@ -47,13 +47,12 @@ class HomepageCubit extends Cubit<HomepageState> {
         // isLoadingNextItems: false,
       ));
     } catch (e) {
+      _isLoading = false;
       emit(
         HomepageError(
           e.toString(),
         ),
       );
-    } finally {
-      _isLoading = false;
     }
   }
 }

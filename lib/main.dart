@@ -10,7 +10,7 @@ import 'presentation/pages/homepage.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  initialiseDependencies();
+  initializeDependencies();
   runApp(const MainApp());
 }
 
@@ -21,7 +21,6 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // Provider<http.Client>(create: (_) => http.Client()),
         Provider<PokemonRemoteDataSource>(
           create: (_) => getIt<PokemonRemoteDataSource>(),
         ),
@@ -35,9 +34,30 @@ class MainApp extends StatelessWidget {
           create: (_) => getIt<HomepageCubit>(),
         ),
       ],
-      child: const MaterialApp(
-        home: Homepage(),
+      child: MaterialApp(
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.red,
+          ),
+        ),
+        home: const HomeScreen(),
       ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBody: true,
+      body: const SafeArea(
+        child: Homepage(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

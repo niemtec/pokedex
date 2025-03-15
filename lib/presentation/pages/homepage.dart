@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/presentation/bloc/homepage/homepage_cubit.dart';
 import 'package:pokedex/presentation/bloc/homepage/homepage_states.dart';
 import 'package:pokedex/presentation/widgets/loading_indicator.dart';
+import 'package:pokedex/presentation/widgets/logo_widget.dart';
 import 'package:pokedex/presentation/widgets/pokemon_mini_profile_card.dart';
 
 class Homepage extends StatefulWidget {
@@ -14,17 +15,23 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   final ScrollController _scrollController = ScrollController();
+  static const double _cardWidth = 200.0;
+  static const double _gridSpacing = 24.0;
 
   @override
   void initState() {
     super.initState();
+    _initializeData();
+    _setupScrollListener();
+  }
 
-    // Fetch initial set of pokemon
-    context.read<HomepageCubit>().getPokemon(isInitialLoad: true);
+  void _initializeData() {
+    context.read<HomepageCubit>().getPokemon(isFirstLoad: true);
+  }
 
+  void _setupScrollListener() {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        // Fetch more pokemon when bottom is reached
         context.read<HomepageCubit>().getPokemon();
       }
     });
@@ -32,113 +39,101 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: _pokedexLogo(),
-              ),
-              Expanded(
-                child: BlocBuilder<HomepageCubit, HomepageState>(
-                  buildWhen: (previous, current) =>
-                      current is HomepageLoaded, // Only rebuild on data change
-                  builder: (context, state) {
-                    if (state is HomepageError) {
-                      //TODO: Show error message
-                    }
-
-                    if (state is HomepageLoading) {
-                      return const LoadingIndicator(
-                        loaderSize: LoaderSize.large,
-                      );
-                    }
-
-                    if (state is HomepageLoaded) {
-                      return LayoutBuilder(builder: (context, constraints) {
-                        // Calculate crossAxisCount dynamically based on the screen width
-                        int crossAxisCount = (constraints.maxWidth / 200)
-                            .floor(); // 200 is the max width of a single card
-
-                        // If crossAxisCount is less than 1, set it to 1 (at least one column)
-                        crossAxisCount = crossAxisCount < 1 ? 1 : crossAxisCount;
-
-                        return GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: crossAxisCount, // Number of columns in the grid
-                              crossAxisSpacing: 10, // Space between columns
-                              mainAxisSpacing: 10, // Space between rows`
-                              childAspectRatio: 3 / 2),
-                          controller: _scrollController,
-                          itemCount: state.pokemonList.length + 1,
-                          itemBuilder: (context, index) {
-                            if (index == state.pokemonList.length) {
-                              return state.hasMoreItems
-                                  ? const LoadingIndicator(
-                                      loadingText: "Loading more Pokemon",
-                                      loaderSize: LoaderSize.small,
-                                    )
-                                  : const SizedBox.shrink();
-                            }
-                            final pokemon = state.pokemonList[index];
-                            return PokemonMiniProfileCard(
-                              pokemonProfile: pokemon,
-                            );
-                          },
-                        );
-                      });
-                    } else if (state is HomepageError) {
-                      return Center(child: Text('Error: ${state.message}'));
-                    } else {
-                      return const LoadingIndicator();
-                    }
-                  },
+    return Padding(
+      padding: const EdgeInsets.all(_gridSpacing),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: _gridSpacing,
+            ),
+            child: const Row(
+              children: [
+                LogoWidget(
+                  size: 32.0,
                 ),
-              ),
-            ],
+                Text(
+                  "Pokédex",
+                  style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
-        ),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+              child: BlocBuilder<HomepageCubit, HomepageState>(
+                buildWhen: (previous, current) => current is HomepageLoaded,
+                builder: (context, state) {
+                  return _buildContentBody(state);
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
+  Widget _buildContentBody(HomepageState state) {
+    if (state is HomepageLoading) {
+      return const Center(
+        child: LoadingIndicator(loaderSize: LoaderSize.large),
+      );
+    }
+
+    if (state is HomepageLoaded) {
+      return LayoutBuilder(
+        builder: (context, constraints) => _buildGrid(constraints, state),
+      );
+    }
+
+    if (state is HomepageError) {
+      return Center(child: Text('Error: ${state.message}'));
+    }
+
+    return const Center(child: LoadingIndicator());
+  }
+
+  Widget _buildGrid(BoxConstraints constraints, HomepageLoaded state) {
+    final int crossAxisCount = _calculateCrossAxisCount(constraints.maxWidth);
+
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: _gridSpacing,
+        mainAxisSpacing: _gridSpacing,
+        childAspectRatio: 3.0 / 2.0,
+      ),
+      controller: _scrollController,
+      itemCount: state.pokemonList.length + 1,
+      itemBuilder: (context, index) => _buildGridItem(index, state),
+    );
+  }
+
+  Widget _buildGridItem(int index, HomepageLoaded state) {
+    if (index == state.pokemonList.length) {
+      return state.hasMoreItems
+          ? const LoadingIndicator(
+              loadingText: "Loading more Pokemon",
+              loaderSize: LoaderSize.small,
+            )
+          : const SizedBox.shrink();
+    }
+
+    return PokemonMiniProfileCard(
+      pokemonProfile: state.pokemonList[index],
+    );
+  }
+
+  int _calculateCrossAxisCount(double width) {
+    int count = (width / _cardWidth).floor();
+    return count < 1 ? 1 : count;
+  }
+
   @override
   void dispose() {
-    // _homepageCubit.close();
     _scrollController.dispose();
-
     super.dispose();
   }
-}
-
-Widget _pokedexLogo() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      ColorFiltered(
-        colorFilter: const ColorFilter.matrix([
-          -1, 0, 0, 0, 255, // Red
-          0, -1, 0, 0, 255, // Green
-          0, 0, -1, 0, 255, // Blue
-          0, 0, 0, 1, 0, // Alpha
-        ]),
-        child: Image.asset(
-          'assets/pokeball-white.png',
-          width: 80,
-          height: 80,
-        ),
-      ),
-      const Text(
-        "Pokedex",
-        style: TextStyle(
-          fontSize: 34,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-    ],
-  );
 }
