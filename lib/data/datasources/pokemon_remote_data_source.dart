@@ -58,6 +58,7 @@ class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
     required this.cacheService,
   });
 
+  @override
   Future<List<PokemonModel>> fetchPokemons({
     required int limit,
     required int offset,
@@ -68,9 +69,7 @@ class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
       if (!forceRefresh) {
         final cachedData = await cacheService.getCachedPokemonData();
         if (cachedData != null) {
-          return cachedData
-              .map((pokemon) => _mapToPokemonModel(pokemon))
-              .toList();
+          return cachedData.map((pokemon) => _mapToPokemonModel(pokemon)).toList();
         }
       }
 
@@ -133,16 +132,12 @@ class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
         name: _extractString(pokemon, 'name'),
         height: _extractInt(pokemon, 'height'),
         weight: _extractInt(pokemon, 'weight'),
-        sprite:
-            sprites.isNotEmpty ? _extractString(sprites.first, 'sprites') : '',
+        sprite: sprites.isNotEmpty ? _extractString(sprites.first, 'sprites') : '',
         types: types,
         abilities: abilities,
-        color:
-            _extractNestedString(species, ['pokemon_v2_pokemoncolor', 'name']),
-        shape:
-            _extractNestedString(species, ['pokemon_v2_pokemonshape', 'name']),
-        habitat: _extractNestedString(
-            species, ['pokemon_v2_pokemonhabitat', 'name']),
+        color: _extractNestedString(species, ['pokemon_v2_pokemoncolor', 'name']),
+        shape: _extractNestedString(species, ['pokemon_v2_pokemonshape', 'name']),
+        habitat: _extractNestedString(species, ['pokemon_v2_pokemonhabitat', 'name']),
       );
     } catch (e) {
       throw DataParsingException('Failed to parse Pokemon model: $e');
@@ -163,8 +158,7 @@ class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
       'nodes',
     );
     return nodes
-        .map((node) =>
-            _extractNestedString(node, ['pokemon_v2_ability', 'name']))
+        .map((node) => _extractNestedString(node, ['pokemon_v2_ability', 'name']))
         .where((ability) => ability.isNotEmpty)
         .toList();
   }
