@@ -19,7 +19,8 @@ class Weight {
   @override
   String toString() {
     final (stones, pounds) = stonesAndPounds;
-    String metric = kg < 1 ? '${(kg * 1000).toInt()}g' : '${kg.toStringAsFixed(2)}kg';
+    String metric =
+        kg < 1 ? '${(kg * 1000).toInt()}g' : '${kg.toStringAsFixed(2)}kg';
     String imperial = stones > 0
         ? '${stones}st ${pounds.toStringAsFixed(1)}lb'
         : '${pounds.toStringAsFixed(1)}lb';

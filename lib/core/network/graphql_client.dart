@@ -6,7 +6,8 @@ class GraphQLService {
   GraphQLService({required this.client});
 
   factory GraphQLService.init() {
-    final HttpLink httpLink = HttpLink('https://beta.pokeapi.co/graphql/v1beta');
+    final HttpLink httpLink =
+        HttpLink('https://beta.pokeapi.co/graphql/v1beta');
 
     return GraphQLService(
       client: GraphQLClient(
@@ -16,7 +17,8 @@ class GraphQLService {
     );
   }
 
-  Future<QueryResult> query(String query, {Map<String, dynamic>? variables}) async {
+  Future<QueryResult> query(String query,
+      {Map<String, dynamic>? variables}) async {
     final QueryOptions options = QueryOptions(
       document: gql(query),
       variables: variables ?? {},

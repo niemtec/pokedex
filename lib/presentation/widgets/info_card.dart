@@ -46,8 +46,8 @@ class InfoCard extends StatelessWidget {
                   const SizedBox(height: 16),
                   Expanded(
                     child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 34.0, right: 34.0, top: 16.0, bottom: 24.0),
+                      padding: const EdgeInsets.only(
+                          left: 34.0, right: 34.0, top: 16.0, bottom: 24.0),
                       child: TabBarView(
                         children: [
                           AboutTab(pokemon: pokemon),

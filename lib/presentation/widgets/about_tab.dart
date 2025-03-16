@@ -11,9 +11,10 @@ class AboutTab extends StatelessWidget {
     return Column(
       children: [
         // _tabRow(Icons.group, pokemon.types.first.color, "Species", pokemon.species),
-        _tabRow(Icons.straighten, pokemon.types.first.color, "Height", pokemon.height.toString()),
-        _tabRow(
-            Icons.scale_rounded, pokemon.types.first.color, "Weight", pokemon.weight.toString()),
+        _tabRow(Icons.straighten, pokemon.types.first.color, "Height",
+            pokemon.height.toString()),
+        _tabRow(Icons.scale_rounded, pokemon.types.first.color, "Weight",
+            pokemon.weight.toString()),
         _tabRow(
           Icons.star,
           pokemon.types.first.color,
@@ -25,7 +26,8 @@ class AboutTab extends StatelessWidget {
   }
 }
 
-Widget _tabRow(IconData icon, Color accentColour, String rowTitle, String rowContent) {
+Widget _tabRow(
+    IconData icon, Color accentColour, String rowTitle, String rowContent) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 20.0),
     child: Container(

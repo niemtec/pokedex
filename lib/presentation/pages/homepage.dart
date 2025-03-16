@@ -31,7 +31,8 @@ class _HomepageState extends State<Homepage> {
 
   void _setupScrollListener() {
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         context.read<HomepageCubit>().getPokemon();
       }
     });

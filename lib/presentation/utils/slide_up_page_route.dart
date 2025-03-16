@@ -11,7 +11,8 @@ class SlideUpPageRoute extends PageRouteBuilder {
             const end = Offset(0.0, 0.0);
             const curve = Curves.ease;
 
-            final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            final tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
             final offsetAnimation = animation.drive(tween);
 
             return SlideTransition(

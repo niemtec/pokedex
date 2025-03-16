@@ -17,7 +17,8 @@ class LoadingIndicator extends StatefulWidget {
   State<LoadingIndicator> createState() => _LoadingIndicatorState();
 }
 
-class _LoadingIndicatorState extends State<LoadingIndicator> with SingleTickerProviderStateMixin {
+class _LoadingIndicatorState extends State<LoadingIndicator>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   @override
   void initState() {
@@ -53,7 +54,8 @@ class _LoadingIndicatorState extends State<LoadingIndicator> with SingleTickerPr
     }
   }
 
-  Widget _rotatingPokeball(LoaderSize loaderSize, AnimationController controller) {
+  Widget _rotatingPokeball(
+      LoaderSize loaderSize, AnimationController controller) {
     final double height = switch (loaderSize) {
       LoaderSize.small => 32.0,
       LoaderSize.medium => 48.0,

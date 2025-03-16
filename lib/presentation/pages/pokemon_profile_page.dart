@@ -95,7 +95,9 @@ class _PokemonProfilePageState extends State<PokemonProfilePage>
 }
 
 Widget _navigationButton(
-    {required IconData icon, required Function() onPressed, bool isEnabled = true}) {
+    {required IconData icon,
+    required Function() onPressed,
+    bool isEnabled = true}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16.0),
     child: IconButton(
@@ -145,17 +147,16 @@ Widget _topDetailArea(
                   ),
                   Text(
                     pokemonName.toTitleCase(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .displaySmall!
-                        .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
               Text(
                 "#${id.toString().padLeft(3, '0')}",
                 style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                    color: Colors.white.withValues(alpha: 0.6), fontWeight: FontWeight.bold),
+                    color: Colors.white.withValues(alpha: 0.6),
+                    fontWeight: FontWeight.bold),
               ),
             ],
           ),

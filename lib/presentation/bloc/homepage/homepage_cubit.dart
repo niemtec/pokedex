@@ -21,7 +21,8 @@ class HomepageCubit extends Cubit<HomepageState> {
     _isLoading = true;
     emit(HomepageLoading());
     try {
-      final result = await _getPokemonListUsecase(offset: isFirstLoad ? 0 : _page * 10);
+      final result =
+          await _getPokemonListUsecase(offset: isFirstLoad ? 0 : _page * 10);
       if (result.isEmpty) {
         _hasMoreItems = false;
       } else {

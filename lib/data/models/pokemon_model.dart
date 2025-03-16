@@ -18,5 +18,6 @@ class PokemonModel with _$PokemonModel {
     @Default('') String habitat,
   }) = _PokemonModel;
 
-  factory PokemonModel.fromJson(Map<String, dynamic> json) => _$PokemonModelFromJson(json);
+  factory PokemonModel.fromJson(Map<String, dynamic> json) =>
+      _$PokemonModelFromJson(json);
 }

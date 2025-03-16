@@ -16,7 +16,8 @@ class PokemonRepositoryImpl implements PokemonRepository {
   PokemonRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<List<Pokemon>> getPokemons({required int limit, required int offset}) async {
+  Future<List<Pokemon>> getPokemons(
+      {required int limit, required int offset}) async {
     try {
       // Fetch data from the remote data source
       List<PokemonModel> models =
@@ -29,8 +30,8 @@ class PokemonRepositoryImpl implements PokemonRepository {
                 name: model.name,
                 sprite: model.sprite,
                 types: model.types
-                    .map((type) => PokemonType.values
-                        .firstWhere((e) => e.name.toLowerCase() == type.toLowerCase()))
+                    .map((type) => PokemonType.values.firstWhere(
+                        (e) => e.name.toLowerCase() == type.toLowerCase()))
                     .toList(),
                 abilities: model.abilities,
                 height: Height.fromDecimetres(model.height.toDouble()),

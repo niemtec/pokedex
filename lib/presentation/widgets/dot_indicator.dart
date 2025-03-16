@@ -30,7 +30,8 @@ class _DotPainter extends BoxPainter {
     // Draw the glow effect using multiple circles
     for (double radius = 8; radius >= 4; radius -= 2) {
       final Paint glowPaint = Paint()
-        ..color = brightenColour(color, 0.2).withOpacity((radius - 4) / 9) // Fade effect
+        ..color = brightenColour(color, 0.2)
+            .withOpacity((radius - 4) / 9) // Fade effect
         ..maskFilter = MaskFilter.blur(BlurStyle.normal, radius);
 
       canvas.drawCircle(circleOffset, radius, glowPaint);
