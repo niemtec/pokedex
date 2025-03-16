@@ -36,17 +36,16 @@ class MockPokemonRemoteDataSource extends _i1.Mock
     bool? forceRefresh = false,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#fetchPokemons, [], {
-              #limit: limit,
-              #offset: offset,
-              #forceRefresh: forceRefresh,
-            }),
-            returnValue: _i3.Future<List<_i4.PokemonModel>>.value(
-              <_i4.PokemonModel>[],
-            ),
-            returnValueForMissingStub: _i3.Future<List<_i4.PokemonModel>>.value(
-              <_i4.PokemonModel>[],
-            ),
-          )
-          as _i3.Future<List<_i4.PokemonModel>>);
+        Invocation.method(#fetchPokemons, [], {
+          #limit: limit,
+          #offset: offset,
+          #forceRefresh: forceRefresh,
+        }),
+        returnValue: _i3.Future<List<_i4.PokemonModel>>.value(
+          <_i4.PokemonModel>[],
+        ),
+        returnValueForMissingStub: _i3.Future<List<_i4.PokemonModel>>.value(
+          <_i4.PokemonModel>[],
+        ),
+      ) as _i3.Future<List<_i4.PokemonModel>>);
 }
