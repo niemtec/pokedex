@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,135 +10,76 @@ part of 'pokemon_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-PokemonModel _$PokemonModelFromJson(Map<String, dynamic> json) {
-  return _PokemonModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$PokemonModel {
-  int get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  int get height => throw _privateConstructorUsedError;
-  int get weight => throw _privateConstructorUsedError;
-  String get sprite => throw _privateConstructorUsedError;
-  List<String> get types => throw _privateConstructorUsedError;
-  List<String> get abilities => throw _privateConstructorUsedError;
-  String get color => throw _privateConstructorUsedError;
-  String get shape => throw _privateConstructorUsedError;
-  String get habitat => throw _privateConstructorUsedError;
-
-  /// Serializes this PokemonModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  int get id;
+  String get name;
+  int get height;
+  int get weight;
+  String get sprite;
+  List<String> get types;
+  List<String> get abilities;
+  String get color;
+  String get shape;
+  String get habitat;
 
   /// Create a copy of PokemonModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PokemonModelCopyWith<PokemonModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $PokemonModelCopyWith<$Res> {
-  factory $PokemonModelCopyWith(
-          PokemonModel value, $Res Function(PokemonModel) then) =
-      _$PokemonModelCopyWithImpl<$Res, PokemonModel>;
-  @useResult
-  $Res call(
-      {int id,
-      String name,
-      int height,
-      int weight,
-      String sprite,
-      List<String> types,
-      List<String> abilities,
-      String color,
-      String shape,
-      String habitat});
-}
-
-/// @nodoc
-class _$PokemonModelCopyWithImpl<$Res, $Val extends PokemonModel>
-    implements $PokemonModelCopyWith<$Res> {
-  _$PokemonModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of PokemonModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $PokemonModelCopyWith<PokemonModel> get copyWith =>
+      _$PokemonModelCopyWithImpl<PokemonModel>(
+          this as PokemonModel, _$identity);
+
+  /// Serializes this PokemonModel to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? height = null,
-    Object? weight = null,
-    Object? sprite = null,
-    Object? types = null,
-    Object? abilities = null,
-    Object? color = null,
-    Object? shape = null,
-    Object? habitat = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      weight: null == weight
-          ? _value.weight
-          : weight // ignore: cast_nullable_to_non_nullable
-              as int,
-      sprite: null == sprite
-          ? _value.sprite
-          : sprite // ignore: cast_nullable_to_non_nullable
-              as String,
-      types: null == types
-          ? _value.types
-          : types // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      abilities: null == abilities
-          ? _value.abilities
-          : abilities // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      color: null == color
-          ? _value.color
-          : color // ignore: cast_nullable_to_non_nullable
-              as String,
-      shape: null == shape
-          ? _value.shape
-          : shape // ignore: cast_nullable_to_non_nullable
-              as String,
-      habitat: null == habitat
-          ? _value.habitat
-          : habitat // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PokemonModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.sprite, sprite) || other.sprite == sprite) &&
+            const DeepCollectionEquality().equals(other.types, types) &&
+            const DeepCollectionEquality().equals(other.abilities, abilities) &&
+            (identical(other.color, color) || other.color == color) &&
+            (identical(other.shape, shape) || other.shape == shape) &&
+            (identical(other.habitat, habitat) || other.habitat == habitat));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      height,
+      weight,
+      sprite,
+      const DeepCollectionEquality().hash(types),
+      const DeepCollectionEquality().hash(abilities),
+      color,
+      shape,
+      habitat);
+
+  @override
+  String toString() {
+    return 'PokemonModel(id: $id, name: $name, height: $height, weight: $weight, sprite: $sprite, types: $types, abilities: $abilities, color: $color, shape: $shape, habitat: $habitat)';
   }
 }
 
 /// @nodoc
-abstract class _$$PokemonModelImplCopyWith<$Res>
-    implements $PokemonModelCopyWith<$Res> {
-  factory _$$PokemonModelImplCopyWith(
-          _$PokemonModelImpl value, $Res Function(_$PokemonModelImpl) then) =
-      __$$PokemonModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $PokemonModelCopyWith<$Res> {
+  factory $PokemonModelCopyWith(
+          PokemonModel value, $Res Function(PokemonModel) _then) =
+      _$PokemonModelCopyWithImpl;
   @useResult
   $Res call(
       {int id,
@@ -153,12 +95,11 @@ abstract class _$$PokemonModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$PokemonModelImplCopyWithImpl<$Res>
-    extends _$PokemonModelCopyWithImpl<$Res, _$PokemonModelImpl>
-    implements _$$PokemonModelImplCopyWith<$Res> {
-  __$$PokemonModelImplCopyWithImpl(
-      _$PokemonModelImpl _value, $Res Function(_$PokemonModelImpl) _then)
-      : super(_value, _then);
+class _$PokemonModelCopyWithImpl<$Res> implements $PokemonModelCopyWith<$Res> {
+  _$PokemonModelCopyWithImpl(this._self, this._then);
+
+  final PokemonModel _self;
+  final $Res Function(PokemonModel) _then;
 
   /// Create a copy of PokemonModel
   /// with the given fields replaced by the non-null parameter values.
@@ -176,45 +117,45 @@ class __$$PokemonModelImplCopyWithImpl<$Res>
     Object? shape = null,
     Object? habitat = null,
   }) {
-    return _then(_$PokemonModelImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       height: null == height
-          ? _value.height
+          ? _self.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
       weight: null == weight
-          ? _value.weight
+          ? _self.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as int,
       sprite: null == sprite
-          ? _value.sprite
+          ? _self.sprite
           : sprite // ignore: cast_nullable_to_non_nullable
               as String,
       types: null == types
-          ? _value._types
+          ? _self.types
           : types // ignore: cast_nullable_to_non_nullable
               as List<String>,
       abilities: null == abilities
-          ? _value._abilities
+          ? _self.abilities
           : abilities // ignore: cast_nullable_to_non_nullable
               as List<String>,
       color: null == color
-          ? _value.color
+          ? _self.color
           : color // ignore: cast_nullable_to_non_nullable
               as String,
       shape: null == shape
-          ? _value.shape
+          ? _self.shape
           : shape // ignore: cast_nullable_to_non_nullable
               as String,
       habitat: null == habitat
-          ? _value.habitat
+          ? _self.habitat
           : habitat // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -223,8 +164,8 @@ class __$$PokemonModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PokemonModelImpl implements _PokemonModel {
-  const _$PokemonModelImpl(
+class _PokemonModel implements PokemonModel {
+  const _PokemonModel(
       {required this.id,
       required this.name,
       required this.height,
@@ -237,9 +178,8 @@ class _$PokemonModelImpl implements _PokemonModel {
       this.habitat = ''})
       : _types = types,
         _abilities = abilities;
-
-  factory _$PokemonModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PokemonModelImplFromJson(json);
+  factory _PokemonModel.fromJson(Map<String, dynamic> json) =>
+      _$PokemonModelFromJson(json);
 
   @override
   final int id;
@@ -280,16 +220,26 @@ class _$PokemonModelImpl implements _PokemonModel {
   @JsonKey()
   final String habitat;
 
+  /// Create a copy of PokemonModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'PokemonModel(id: $id, name: $name, height: $height, weight: $weight, sprite: $sprite, types: $types, abilities: $abilities, color: $color, shape: $shape, habitat: $habitat)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$PokemonModelCopyWith<_PokemonModel> get copyWith =>
+      __$PokemonModelCopyWithImpl<_PokemonModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$PokemonModelToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PokemonModelImpl &&
+            other is _PokemonModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.height, height) || other.height == height) &&
@@ -318,63 +268,100 @@ class _$PokemonModelImpl implements _PokemonModel {
       shape,
       habitat);
 
-  /// Create a copy of PokemonModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$PokemonModelImplCopyWith<_$PokemonModelImpl> get copyWith =>
-      __$$PokemonModelImplCopyWithImpl<_$PokemonModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$PokemonModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'PokemonModel(id: $id, name: $name, height: $height, weight: $weight, sprite: $sprite, types: $types, abilities: $abilities, color: $color, shape: $shape, habitat: $habitat)';
   }
 }
 
-abstract class _PokemonModel implements PokemonModel {
-  const factory _PokemonModel(
-      {required final int id,
-      required final String name,
-      required final int height,
-      required final int weight,
-      final String sprite,
-      final List<String> types,
-      final List<String> abilities,
-      final String color,
-      final String shape,
-      final String habitat}) = _$PokemonModelImpl;
+/// @nodoc
+abstract mixin class _$PokemonModelCopyWith<$Res>
+    implements $PokemonModelCopyWith<$Res> {
+  factory _$PokemonModelCopyWith(
+          _PokemonModel value, $Res Function(_PokemonModel) _then) =
+      __$PokemonModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      String name,
+      int height,
+      int weight,
+      String sprite,
+      List<String> types,
+      List<String> abilities,
+      String color,
+      String shape,
+      String habitat});
+}
 
-  factory _PokemonModel.fromJson(Map<String, dynamic> json) =
-      _$PokemonModelImpl.fromJson;
+/// @nodoc
+class __$PokemonModelCopyWithImpl<$Res>
+    implements _$PokemonModelCopyWith<$Res> {
+  __$PokemonModelCopyWithImpl(this._self, this._then);
 
-  @override
-  int get id;
-  @override
-  String get name;
-  @override
-  int get height;
-  @override
-  int get weight;
-  @override
-  String get sprite;
-  @override
-  List<String> get types;
-  @override
-  List<String> get abilities;
-  @override
-  String get color;
-  @override
-  String get shape;
-  @override
-  String get habitat;
+  final _PokemonModel _self;
+  final $Res Function(_PokemonModel) _then;
 
   /// Create a copy of PokemonModel
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PokemonModelImplCopyWith<_$PokemonModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? height = null,
+    Object? weight = null,
+    Object? sprite = null,
+    Object? types = null,
+    Object? abilities = null,
+    Object? color = null,
+    Object? shape = null,
+    Object? habitat = null,
+  }) {
+    return _then(_PokemonModel(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      weight: null == weight
+          ? _self.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as int,
+      sprite: null == sprite
+          ? _self.sprite
+          : sprite // ignore: cast_nullable_to_non_nullable
+              as String,
+      types: null == types
+          ? _self._types
+          : types // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      abilities: null == abilities
+          ? _self._abilities
+          : abilities // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      color: null == color
+          ? _self.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as String,
+      shape: null == shape
+          ? _self.shape
+          : shape // ignore: cast_nullable_to_non_nullable
+              as String,
+      habitat: null == habitat
+          ? _self.habitat
+          : habitat // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
+
+// dart format on

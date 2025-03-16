@@ -6,8 +6,8 @@ part of 'pokemon_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PokemonModelImpl _$$PokemonModelImplFromJson(Map<String, dynamic> json) =>
-    _$PokemonModelImpl(
+_PokemonModel _$PokemonModelFromJson(Map<String, dynamic> json) =>
+    _PokemonModel(
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       height: (json['height'] as num).toInt(),
@@ -25,7 +25,7 @@ _$PokemonModelImpl _$$PokemonModelImplFromJson(Map<String, dynamic> json) =>
       habitat: json['habitat'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$PokemonModelImplToJson(_$PokemonModelImpl instance) =>
+Map<String, dynamic> _$PokemonModelToJson(_PokemonModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
