@@ -9,13 +9,31 @@ import 'package:pokedex/presentation/bloc/homepage/homepage_cubit.dart';
 import 'presentation/pages/homepage.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  initializeDependencies();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDependencies();
   runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.red,
+        ),
+      ),
+      home: const HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,30 +52,13 @@ class MainApp extends StatelessWidget {
           create: (_) => getIt<HomepageCubit>(),
         ),
       ],
-      child: MaterialApp(
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.red,
-          ),
+      child: Scaffold(
+        extendBody: true,
+        body: const SafeArea(
+          child: Homepage(),
         ),
-        home: const HomeScreen(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: const SafeArea(
-        child: Homepage(),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

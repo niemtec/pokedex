@@ -10,31 +10,43 @@ import 'package:shared_preferences/shared_preferences.dart';
 final getIt = GetIt.instance;
 
 Future<void> initializeDependencies() async {
-  // Initialize SharedPreferences
+  // Core services
   final sharedPreferences = await SharedPreferences.getInstance();
 
-  // Register CacheService
   getIt.registerSingleton<CacheService>(
     CacheService(prefs: sharedPreferences),
   );
 
-  // Register services
-  getIt.registerLazySingleton<GraphQLService>(() => GraphQLService.init());
+  getIt.registerLazySingleton<GraphQLService>(
+    () => GraphQLService.init(),
+  );
 
-  // Register datasources
-  getIt.registerSingleton<PokemonRemoteDataSource>(
-    PokemonRemoteDataSource(
-      graphQLService: getIt<GraphQLService>(),
+  // Data sources
+  getIt.registerLazySingleton<PokemonRemoteDataSource>(
+    () => PokemonRemoteDataSourceImpl(
       cacheService: getIt<CacheService>(),
+      graphQLService: getIt<GraphQLService>(),
     ),
   );
 
-  // Register repositories
-  getIt.registerLazySingleton<PokemonRepository>(() => PokemonRepositoryImpl(getIt()));
+  // Repositories
+  getIt.registerLazySingleton<PokemonRepository>(
+    () => PokemonRepositoryImpl(
+      getIt<PokemonRemoteDataSource>(),
+    ),
+  );
 
-  // Register usecases
-  getIt.registerLazySingleton<GetPokemonsUsecase>(() => GetPokemonsUsecase(getIt()));
+  // Use cases
+  getIt.registerLazySingleton<GetPokemonsUsecase>(
+    () => GetPokemonsUsecase(
+      getIt<PokemonRepository>(),
+    ),
+  );
 
-  // Register cubits
-  getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getPokemonListUsecase: getIt()));
+  // Cubits
+  getIt.registerFactory<HomepageCubit>(
+    () => HomepageCubit(
+      getPokemonListUsecase: getIt<GetPokemonsUsecase>(),
+    ),
+  );
 }

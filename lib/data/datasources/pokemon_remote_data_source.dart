@@ -4,7 +4,15 @@ import 'package:pokedex/core/network/graphql_client.dart';
 import 'package:pokedex/data/datasources/pokemon_exception.dart';
 import 'package:pokedex/data/models/pokemon_model.dart';
 
-class PokemonRemoteDataSource {
+abstract class PokemonRemoteDataSource {
+  Future<List<PokemonModel>> fetchPokemons({
+    required int limit,
+    required int offset,
+    bool forceRefresh = false,
+  });
+}
+
+class PokemonRemoteDataSourceImpl implements PokemonRemoteDataSource {
   static const String _pokemonQuery = '''
     query GetPokemon(\$limit: Int = 1, \$offset: Int = 0) {
       pokemon_v2_pokemon(limit: \$limit, offset: \$offset) {
@@ -45,7 +53,7 @@ class PokemonRemoteDataSource {
   final GraphQLService graphQLService;
   final CacheService cacheService;
 
-  const PokemonRemoteDataSource({
+  const PokemonRemoteDataSourceImpl({
     required this.graphQLService,
     required this.cacheService,
   });
