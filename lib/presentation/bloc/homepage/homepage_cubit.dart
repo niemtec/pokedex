@@ -17,19 +17,6 @@ class HomepageCubit extends Cubit<HomepageState> {
   bool _hasMoreItems = true;
 
   Future<void> getPokemon({bool isFirstLoad = false}) async {
-    // final currentState = state;
-    // if (currentState is HomepageLoaded) {
-    //   emit(HomepageLoading());
-    //   final newItems = await _getPokemonListUsecase(offset: currentState.pokemonList.length);
-    //   if (newItems.isNotEmpty) {
-    //     emit(HomepageLoaded(
-    //       pokemonList: currentState.pokemonList + newItems,
-    //       hasMoreItems: newItems.length == 20, // Assumes 20 items per load
-    //       isLoadingNextItems: false,
-    //     ));
-    //   }
-    // }
-
     if (_isLoading || !_hasMoreItems) return;
     _isLoading = true;
     emit(HomepageLoading());
